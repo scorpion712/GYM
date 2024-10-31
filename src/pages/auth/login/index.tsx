@@ -1,4 +1,4 @@
-import { Box, Container, Grid2, LinearProgress, Link, Stack, Typography } from "@mui/material";
+import { Box, Container, Grid2, LinearProgress,Typography } from "@mui/material";
 import * as Yup from 'yup';
 import { Form, Formik } from "formik";
 import { useEffect } from "react";
@@ -8,8 +8,7 @@ import { LoginForm, Seo } from "../../../components";
 import { paths } from "../../../routes/paths";
 import { LoginFormValues, LoginResponse } from "../../../models";
 import { useRouter, useService, useAuth } from "../../../hooks";
-import { authService } from "../../../services";
-import { primary } from "../../../theme/colors";
+import { authService } from "../../../services"; 
 import { SnackBarUtilities } from "../../../utils";
 
 const formInitialValues = {
@@ -68,16 +67,6 @@ const LoginPage = () => {
           <Grid2 container spacing={2}>
             <Grid2 size={12}>
               <Typography variant="h3" mt={{ xs: 0, md: 4 }} gutterBottom>Bienvenido</Typography>
-              <Stack direction={"row"} mt={2} mb={{ xs: 2, md: 4 }}  >
-                <Typography variant="body1" color={primary.alpha50} fontSize={{ xs: '14px', md: "18px" }}>¿Todavía no estas registrado?</Typography>
-                <Link variant="body1"
-                  href={paths.auth.register.index}
-                  sx={{ color: primary.main, fontWeight: "650" }}
-                  fontSize={{ xs: '14px', md: "18px" }}
-                  ml={0.5}>
-                  Registrate
-                </Link>
-              </Stack>
               {loading ?
                 <Box>
                   <LinearProgress sx={{ mt: 5 }} />
@@ -92,9 +81,6 @@ const LoginPage = () => {
                     <LoginForm />
                   </Form>
                 </Formik>}
-              <Stack mt={2}>
-                <Link href={paths.auth.resetPwd} color={primary.main}>¿Olvidaste tu contraseña?</Link>
-              </Stack>
             </Grid2>
           </Grid2>
         </Container>

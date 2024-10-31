@@ -31,7 +31,7 @@ vi.mock('../../hooks/useService', () => ({
                 refreshToken: 'refreshToken',
                 role: 'admin',
                 id: '1',
-                email: 'test@carva.com.ar',
+                email: 'test@test.com.ar',
             },
         }),
     }),
@@ -45,7 +45,7 @@ vi.mock('../../services/auth', () => ({
                 refreshToken: 'refreshToken',
                 role: 'admin',
                 id: '1',
-                email: 'test@carva.com.ar',
+                email: 'test@test.com.ar',
             },
         }),
     },
@@ -186,13 +186,13 @@ describe('Login Page', () => {
     it('submits the form and navigates to home page', async () => {
 
         // Fill in the form
-        fireEvent.change(emailField, { target: { value: 'admin@carva.com.ar' } });
+        fireEvent.change(emailField, { target: { value: 'admin@test.com.ar' } });
         fireEvent.change(passwordField, { target: { value: '123qwe' } });
         fireEvent.click(submitButton);
 
         // Wait for assertions
         await waitFor(() => {
-            expect(authService.logIn).toHaveBeenCalledWith('admin@carva.com.ar', '123qwe');
+            expect(authService.logIn).toHaveBeenCalledWith('admin@test.com.ar', '123qwe');
             expect(mockPush).toHaveBeenCalledWith(paths.index, {});
         });
     });
