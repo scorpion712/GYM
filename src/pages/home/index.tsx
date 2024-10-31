@@ -1,26 +1,17 @@
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { Typography } from '@mui/material';
 
-import { Seo } from '../../components';
+import { Seo, UsersPageContainer } from '../../components';
 
 const Page = () => {
   return (
     <>
-      <Seo title="Home Dashboard" />
+      <Seo title="Clientes" />
       <Box
         component="main"
-        sx={{
-          alignItems: 'center',
-          display: 'flex',
-          flexGrow: 1,
-          py: '80px',
-        }}
       >
-        <Container maxWidth="lg">
-          <Typography gutterBottom variant="h4" component="h2">
-            Bienvenido a GYM React Dashboard Template
-          </Typography>
+        <Container maxWidth="xl">
+          <UsersPageContainer />
         </Container>
       </Box>
     </>
