@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 import { APIConfig } from '../../config';
-import { ActivateUserRequest, ActivateUserResponse, AxiosCall, CheckActivationTokenResponse, ForgotPasswordRequest, ForgotPasswordResponse, RegisterUserRequest, RegisterUserResponse, SetUserPasswordRequest, SetUserPasswordResponse } from '../../models';
+import { ActivateUserRequest, ActivateUserResponse, AxiosCall, CheckActivationTokenResponse, RegisterUserRequest, RegisterUserResponse, SetUserPasswordRequest, SetUserPasswordResponse } from '../../models';
+import { CreateUserRequest, CreateUserResponse } from '../../models/api/users/CreateUser';
 
 const registerUser = async (request: RegisterUserRequest) => {
     const controller = new AbortController();
@@ -34,17 +35,6 @@ const checkActivationToken = async (activationToken: string) => {
     } as AxiosCall<CheckActivationTokenResponse>;
 }
 
-const resetUserPassword = async (request: ForgotPasswordRequest) => {
-    const controller = new AbortController();
-
-    // TO DO: validate
-
-    return {
-        call: axios.post(`${APIConfig.baseURL}/User/BeginPasswordReset`, request, { signal: controller.signal }),
-        controller
-    } as AxiosCall<ForgotPasswordResponse>;
-}
-
 const setPassword = async (request: SetUserPasswordRequest) => {
     const controller = new AbortController();
     return {
@@ -53,10 +43,19 @@ const setPassword = async (request: SetUserPasswordRequest) => {
     } as AxiosCall<SetUserPasswordResponse>;
 }
 
+const createUser = async (request: CreateUserRequest) => {
+    const controller = new AbortController();
+
+    return {
+        call: axios.post(`${APIConfig.baseURL}/User`, request, { signal: controller.signal }),
+        controller
+    } as AxiosCall<CreateUserResponse>;
+}
+
 export const userService = {
     registerUser,
     activateUser,
     checkActivationToken,
-    resetUserPassword,
-    setPassword
+    setPassword,
+    createUser
 }
