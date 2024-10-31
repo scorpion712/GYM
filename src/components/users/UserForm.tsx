@@ -7,11 +7,13 @@ import { UserRegistrationFormValues, CreateUserRequest, CreateUserResponse } fro
 import { userService } from "../../services";
 import { paths } from "../../routes/paths";
 import { UserFormBody } from "./UserFormBody";
+import { SnackBarUtilities } from "../../utils";
 
 const formInitialValues = {
     email: "",
     firstName: "",
     lastName: "",
+    daysPerWeek: [true, true, true, true, true]
 } as UserRegistrationFormValues;
 
 const formValidationSchema = Yup.object().shape({
@@ -21,11 +23,7 @@ const formValidationSchema = Yup.object().shape({
 
     lastName: Yup.string()
         .optional()
-        .min(2, 'El apellido debe tener al menos 2 caracteres'),
-
-    username: Yup.string()
-        .required('El apodo es requerido')
-        .min(3, 'El apodo debe tener al menos 3 caracteres'),
+        .min(2, 'El apellido debe tener al menos 2 caracteres'), 
 
     age: Yup.number()
         .optional()
@@ -45,8 +43,12 @@ const formValidationSchema = Yup.object().shape({
     considerations: Yup.string()
         .optional(),
 
-    daysPerWeek: Yup.number()
-        .required('Debe indicar los días a la semana')
+    daysPerWeek: Yup.array()
+        .of(Yup.boolean())
+        .test('at-least-one-true', 'Al menos debe seleccionar un día', (value) => {
+            return value && value.some(day => day === true);
+        })
+        .required('Al menos debe seleccionar un día'),
 });
 
 export const UserForm = () => {
@@ -56,8 +58,7 @@ export const UserForm = () => {
     const handleFormSubmit = async (values: UserRegistrationFormValues) => {
         const response = await callEndpoint(await userService.createUser({
             firstName: values.firstName,
-            lastName: values.lastName,
-            username: values.username,
+            lastName: values.lastName, 
             age: values.age,
             phone: values.phone,
             email: values.email,
@@ -65,7 +66,7 @@ export const UserForm = () => {
             daysPerWeek: values.daysPerWeek
         } as CreateUserRequest));
         if (response.data.id) {
-            // TO DO: show snackbar message and go back to list
+            SnackBarUtilities.success("Usuario creado correctamente");
             router.push(paths.index);
         }
     }
@@ -84,7 +85,7 @@ export const UserForm = () => {
                         onSubmit={handleFormSubmit}>
                         <Form>
                             <UserFormBody />
-                            <Button sx={{ mt: 2 }} type="submit" variant="contained" fullWidth>Registrar</Button>
+                            <Button sx={{ mt: { xs: 2, md: 4 } }} type="submit" variant="contained" fullWidth>Registrar</Button>
                         </Form>
                     </Formik>
             }

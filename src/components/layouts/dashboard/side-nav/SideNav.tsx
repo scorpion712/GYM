@@ -78,7 +78,7 @@ export const SideNav = () => {
                 <Divider />
                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <Typography variant="caption" align='center' gutterBottom mt={1}>
-                        Copyright © 2022 GYM. All rights reserved.
+                        Copyright © 2024 GYM. All rights reserved.
                     </Typography>
                 </Box>
             </Box>

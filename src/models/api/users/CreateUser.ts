@@ -1,12 +1,11 @@
 export type CreateUserRequest = {
     firstName: string;
-    lastName?: string;
-    username: string;
+    lastName?: string; 
     age?: number;
     phone?: string;
     email?: string;
     considerations?: string;
-    daysPerWeek: number;
+    daysPerWeek: boolean [];
 }
 
 export type CreateUserResponse = {
