@@ -1,4 +1,9 @@
-export type UserCustomer = {
+export type GetAllUsersResponse = {
+    users: UserResponse [];
+    total: number;
+}
+
+interface UserResponse {
     id: string;
     firstName: string;
     lastName?: string;
@@ -8,4 +13,5 @@ export type UserCustomer = {
     daysPerWeek: boolean [];
     lastPaidDate?: number;
     considerations?: string;
-};
+    active: boolean;
+}
