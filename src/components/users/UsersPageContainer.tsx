@@ -1,10 +1,10 @@
 import { Paper, Typography, TableContainer, Table, TablePagination, OutlinedInput, InputAdornment, SvgIcon, Stack, Button, Box, LinearProgress } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SearchIcon from '@mui/icons-material/Search';
 
 import { GetAllUsersResponse, UserCustomer } from "../../models";
 import { UsersTableBody, UsersTableHeader } from "./table";
-import { useService } from "../../hooks";
+import { useAsync, useService } from "../../hooks";
 import { userService } from "../../services";
 import { adaptGetAllCustomersToCustomers } from "../../adapters";
 
@@ -59,17 +59,14 @@ export const UsersPageContainer = () => {
         console.log("show all customers -> service.getAll(true)")
     }
 
-    const fetchUsers = async () => {
-        const response = await callEndpoint(await userService.getAll()); 
-        if (response.data) { 
-            setUsers(adaptGetAllCustomersToCustomers(response.data));
-            setUsersTotal(response.data.total);
-        }
+    const fetchUsers = async () => await callEndpoint(await userService.getAll());
+
+    const handleFetchUsersResponse = (data: GetAllUsersResponse) => {
+        setUsers(adaptGetAllCustomersToCustomers(data));
+        setUsersTotal(data.total);
     }
 
-    useEffect(() => { 
-        fetchUsers();
-    }, []);
+    useAsync(fetchUsers, handleFetchUsersResponse);
 
     return (
         <Paper sx={{ width: '100%', p: 2 }}>
