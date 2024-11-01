@@ -5,5 +5,5 @@ export * from './ResponseData';
 export * from './Axios';
 export * from './RegisterUser'; 
 export * from './CheckValidationToken';
-export * from './ForgotPassword';
 export * from './users';
+export * from './membership';
