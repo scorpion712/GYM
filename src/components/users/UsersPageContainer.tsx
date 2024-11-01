@@ -1,11 +1,14 @@
-import { Paper, Typography, TableContainer, Table, TablePagination, OutlinedInput, InputAdornment, SvgIcon, Stack, Button } from "@mui/material";
-import { useState } from "react";
+import { Paper, Typography, TableContainer, Table, TablePagination, OutlinedInput, InputAdornment, SvgIcon, Stack, Button, Box, LinearProgress } from "@mui/material";
+import { useEffect, useState } from "react";
 import SearchIcon from '@mui/icons-material/Search';
 
-import { UserCustomer } from "../../models";
+import { GetAllUsersResponse, UserCustomer } from "../../models";
 import { UsersTableBody, UsersTableHeader } from "./table";
+import { useService } from "../../hooks";
+import { userService } from "../../services";
+import { adaptGetAllCustomersToCustomers } from "../../adapters";
 
-const users = [
+const mockedUsers = [
     {
         id: "1",
         firstName: "Ronnie",
@@ -32,6 +35,9 @@ export const UsersPageContainer = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [search, setSearch] = useState("");
+    const [users, setUsers] = useState<UserCustomer[]>(mockedUsers);
+    const [usersTotal, setUsersTotal] = useState(0);
+    const { loading, callEndpoint } = useService<GetAllUsersResponse>();
 
     const handleChangePage = (_event: unknown, newPage: number) => {
         setPage(newPage);
@@ -53,45 +59,67 @@ export const UsersPageContainer = () => {
         console.log("show all customers -> service.getAll(true)")
     }
 
+    const fetchUsers = async () => {
+        const response = await callEndpoint(await userService.getAll()); 
+        if (response.data) { 
+            setUsers(adaptGetAllCustomersToCustomers(response.data));
+            setUsersTotal(response.data.total);
+        }
+    }
+
+    useEffect(() => { 
+        fetchUsers();
+    }, []);
+
     return (
         <Paper sx={{ width: '100%', p: 2 }}>
             <Typography variant="h5" gutterBottom>
                 Clientes
             </Typography>
-            <Stack direction="row"
-                spacing={2}
-                sx={{ mt: 2, mb: 3 }}>
-                <OutlinedInput
-                    placeholder="Buscar clientes"
-                    startAdornment={
-                        <InputAdornment position="start">
-                            <SvgIcon>
-                                <SearchIcon />
-                            </SvgIcon>
-                        </InputAdornment>
-                    }
-                    onChange={handleSearchChange}
-                    sx={{ flexGrow: 1 }}
-                />
-                <Button variant="outlined" color="info" onClick={handleShowAllCustomers}>Ver Eliminados</Button>
-            </Stack>
-            <TableContainer sx={{ maxHeight: 640 }}>
-                <Table>
-                    <UsersTableHeader />
-                    <UsersTableBody users={users.filter(user => user.firstName.toLowerCase().includes(search.toLowerCase()) || user.lastName?.toLowerCase().includes(search.toLowerCase()))} />
-                </Table>
-            </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={users.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                labelRowsPerPage="Clientes por página"
-                labelDisplayedRows={({ from, to, count }) => `${from}-${to} de ${count}`}
-            />
+            {
+                loading ?
+                    <Box>
+                        <LinearProgress sx={{ mt: 5 }} />
+                    </Box>
+                    :
+                    <>
+
+                        <Stack direction="row"
+                            spacing={2}
+                            sx={{ mt: 2, mb: 3 }}>
+                            <OutlinedInput
+                                placeholder="Buscar clientes"
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <SvgIcon>
+                                            <SearchIcon />
+                                        </SvgIcon>
+                                    </InputAdornment>
+                                }
+                                onChange={handleSearchChange}
+                                sx={{ flexGrow: 1 }}
+                            />
+                            <Button variant="outlined" color="info" onClick={handleShowAllCustomers}>Ver Eliminados</Button>
+                        </Stack>
+                        <TableContainer sx={{ maxHeight: 640 }}>
+                            <Table>
+                                <UsersTableHeader />
+                                <UsersTableBody users={users.filter(user => user.firstName.toLowerCase().includes(search.toLowerCase()) || user.lastName?.toLowerCase().includes(search.toLowerCase()))} />
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={users.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                            labelRowsPerPage="Clientes por página"
+                            labelDisplayedRows={({ from, to }) => `${from}-${to} de ${usersTotal}`}
+                        />
+                    </>
+            }
         </Paper >
     )
 }

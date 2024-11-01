@@ -9,11 +9,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import { UserCustomer } from "../../../models"
 import { daysPerWeekToString } from "../../../utils"
+import { useRouter } from "../../../hooks";
+import { paths } from "../../../routes/paths";
 
 export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
 
+    const router = useRouter();
+
     const handleEditCustomer = (id: string) => {
-        console.log("Editar cliente", id)
+        router.push(paths.users.edit, { 
+            state: {
+                userId: id
+            }
+        });
     }
 
     const handleGoToDetail = (id: string) => {
@@ -33,7 +41,7 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
             <TableCell align="center">{user.age ?? ""}</TableCell>
             <TableCell align="right">{daysPerWeekToString(user.daysPerWeek)}</TableCell>
             <TableCell align="right">{user.lastPaidDate ? format(user.lastPaidDate, "dd MMMM yyyy", { locale: es }) : ""}</TableCell>
-            <TableCell align="right"> 
+            <TableCell align="right">
                 <Tooltip title="Editar cliente">
                     <IconButton onClick={() => handleEditCustomer(user.id)}>
                         <SvgIcon>

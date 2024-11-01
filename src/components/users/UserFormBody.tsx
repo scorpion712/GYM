@@ -72,8 +72,7 @@ export const UserFormBody = () => {
                         name="considerations"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        multiline
-                        rows={3}
+                        multiline 
                         maxRows={3}
                         value={values.considerations}
                     /> 
