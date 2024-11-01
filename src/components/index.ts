@@ -6,3 +6,4 @@ export * from './Scrollbar';
 export * from './Logo';
 export * from './auth';
 export * from './users';
+export * from './CustomPopUp';

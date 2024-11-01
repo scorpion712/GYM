@@ -9,12 +9,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import { UserCustomer } from "../../../models"
 import { daysPerWeekToString } from "../../../utils"
-import { useRouter } from "../../../hooks";
+import { usePopUp, useRouter } from "../../../hooks";
 import { paths } from "../../../routes/paths";
 
 export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
 
     const router = useRouter();
+    const { showPopUp, state: popupsState } = usePopUp();
 
     const handleEditCustomer = (id: string) => {
         router.push(paths.users.edit, { 
@@ -29,7 +30,7 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
     }
 
     const registerMembershipPayment = (id: string) => {
-        console.log("Registrar Pago", id)
+        showPopUp("Saldar cuenta Cliente", <div>{"Registrar Pago" + id}</div>);
     }
 
     return (
