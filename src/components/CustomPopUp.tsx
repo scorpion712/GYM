@@ -60,7 +60,7 @@ export const CustomPopUp = () => {
                     </SvgIcon>
                 </IconButton>
             </Stack>
-            <DialogContent>
+            <DialogContent >
                 {state.content}
             </DialogContent>
             <DialogActions>

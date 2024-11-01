@@ -11,11 +11,12 @@ import { UserCustomer } from "../../../models"
 import { daysPerWeekToString } from "../../../utils"
 import { usePopUp, useRouter } from "../../../hooks";
 import { paths } from "../../../routes/paths";
+import { UserMembershipPayment } from "../membership";
 
 export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
 
     const router = useRouter();
-    const { showPopUp, state: popupsState } = usePopUp();
+    const { showPopUp } = usePopUp();
 
     const handleEditCustomer = (id: string) => {
         router.push(paths.users.edit, { 
@@ -29,8 +30,8 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
         console.log("Ver Detalle", id)
     }
 
-    const registerMembershipPayment = (id: string) => {
-        showPopUp("Saldar cuenta Cliente", <div>{"Registrar Pago" + id}</div>);
+    const registerMembershipPayment = (id: string, name: string, daysPerWeek: boolean[]) => {
+        showPopUp(`Membresía de cliente ${name}`, <UserMembershipPayment id={id} daysPerWeek={daysPerWeek} />);
     }
 
     return (
@@ -58,7 +59,7 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Registrar Pago">
-                    <IconButton onClick={() => registerMembershipPayment(user.id)}>
+                    <IconButton onClick={() => registerMembershipPayment(user.id, `${user.firstName} ${user.lastName}`, user.daysPerWeek)}>
                         <SvgIcon>
                             <PaidIcon color='success' />
                         </SvgIcon>

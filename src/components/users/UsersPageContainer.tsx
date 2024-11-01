@@ -96,6 +96,7 @@ export const UsersPageContainer = () => {
                                 onChange={handleSearchChange}
                                 sx={{ flexGrow: 1 }}
                             />
+                            <Button variant="contained" color="success" onClick={handleShowAllCustomers}>Nuevo</Button>
                             <Button variant="outlined" color="info" onClick={handleShowAllCustomers}>Ver Eliminados</Button>
                         </Stack>
                         <TableContainer sx={{ maxHeight: 640 }}>
