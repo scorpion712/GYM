@@ -1,6 +1,8 @@
 import { SnackbarProvider } from 'notistack'
 import { useRoutes } from 'react-router-dom'
 import { CssBaseline, ThemeProvider } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 import { SnackBarUtilitiesConfigurator } from './utils'
 import { routes } from './routes'
@@ -17,14 +19,16 @@ function App() {
   return (
     <SnackbarProvider>
       <SnackBarUtilitiesConfigurator />
-      <AuthProvider>
-        <PopUpProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {element}
-          </ThemeProvider>
-        </PopUpProvider>
-      </AuthProvider>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <AuthProvider>
+          <PopUpProvider>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              {element}
+            </ThemeProvider>
+          </PopUpProvider>
+        </AuthProvider>
+      </LocalizationProvider>
     </SnackbarProvider>
   )
 }
