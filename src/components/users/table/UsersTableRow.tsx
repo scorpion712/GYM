@@ -34,6 +34,14 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
         showPopUp(`Membresía de cliente ${name}`, <UserMembershipPayment id={id} daysPerWeek={daysPerWeek} />);
     }
 
+    const handleViewCustomerWorkoutPlan = (id: string) => {
+        console.log("Ver Rutina", id)
+    }
+
+    const handleRemoveCustomer = (id: string) => {
+        console.log("Dar de baja", id)
+    }
+
     return (
         <TableRow>
             <TableCell>{user.firstName}</TableCell>
@@ -66,14 +74,14 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Ver Rutina">
-                    <IconButton onClick={() => handleEditCustomer(user.id)}>
+                    <IconButton onClick={() => handleViewCustomerWorkoutPlan(user.id)}>
                         <SvgIcon>
                             <FitnessCenterIcon color='info' />
                         </SvgIcon>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Dar de baja">
-                    <IconButton onClick={() => handleEditCustomer(user.id)}>
+                    <IconButton onClick={() => handleRemoveCustomer(user.id)}>
                         <SvgIcon>
                             <DeleteIcon color='error' />
                         </SvgIcon>
