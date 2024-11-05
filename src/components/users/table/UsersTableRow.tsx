@@ -59,10 +59,10 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
                         </SvgIcon>
                     </IconButton>
                 </Tooltip>
-                <Tooltip title="Ver Detalle">
-                    <IconButton onClick={() => handleGoToDetail(user.id)}>
+                <Tooltip title="Ver Rutina">
+                    <IconButton onClick={() => handleViewCustomerWorkoutPlan(user.id)}>
                         <SvgIcon>
-                            <DetailsIcon color='warning' />
+                            <FitnessCenterIcon color='info' />
                         </SvgIcon>
                     </IconButton>
                 </Tooltip>
@@ -73,10 +73,10 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
                         </SvgIcon>
                     </IconButton>
                 </Tooltip>
-                <Tooltip title="Ver Rutina">
-                    <IconButton onClick={() => handleViewCustomerWorkoutPlan(user.id)}>
+                <Tooltip title="Ver Detalle">
+                    <IconButton onClick={() => handleGoToDetail(user.id)}>
                         <SvgIcon>
-                            <FitnessCenterIcon color='info' />
+                            <DetailsIcon color='warning' />
                         </SvgIcon>
                     </IconButton>
                 </Tooltip>
