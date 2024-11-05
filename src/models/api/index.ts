@@ -7,3 +7,4 @@ export * from './RegisterUser';
 export * from './CheckValidationToken';
 export * from './users';
 export * from './membership';
+export * from './workouts';
