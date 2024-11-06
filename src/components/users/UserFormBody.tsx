@@ -60,8 +60,17 @@ export const UserFormBody = () => {
                         value={values.phone}
                     />
                 </Grid2>
-                <Grid2 size={{ xs: 12, md: 6  }}>
-                    <DaysPerWeekForm />
+                <Grid2 size={{ xs: 12, md: 6 }}>
+                    <TextField
+                        error={!!(touched.dni && errors.dni)}
+                        fullWidth
+                        helperText={touched.dni && errors.dni}
+                        label="DNI"
+                        name="dni"
+                        onBlur={handleBlur}
+                        onChange={handleChange} 
+                        value={values.dni}
+                    /> 
                 </Grid2>
                 <Grid2 size={{ xs: 12, md: 6 }}>
                     <TextField
@@ -76,6 +85,9 @@ export const UserFormBody = () => {
                         maxRows={3}
                         value={values.considerations}
                     /> 
+                </Grid2>
+                <Grid2 size={{ xs: 12, md: 6  }}>
+                    <DaysPerWeekForm />
                 </Grid2>
             </Grid2>
         </Stack>
