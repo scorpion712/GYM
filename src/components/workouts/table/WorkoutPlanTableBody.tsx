@@ -2,18 +2,21 @@ import { IconButton, SvgIcon, TableBody, TableCell, TableRow, Tooltip } from "@m
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import EditIcon from '@mui/icons-material/Edit';
-import AssignmentIcon from '@mui/icons-material/Assignment';
 
 import { WorkoutPlan } from "../../../models"
+import { useRouter } from "../../../hooks";
+import { paths } from "../../../routes/paths";
 
 const WorkoutsTableRow = ({ workoutPlan }: { workoutPlan: WorkoutPlan }) => {
 
-    const handleEditPlan = (id: string) => {
-        console.log("Editar Plan", id)
-    }
+    const router = useRouter();
 
-    const handleAssignToCustomer = (id: string) => {
-        console.log("Asignar Plan a Cliente", id)
+    const handleEditPlan = (id: string) => {
+        router.push(paths.workout.edit, { 
+            state: {
+                workoutPlanId: id
+            }
+        });
     }
 
     return (
@@ -29,13 +32,6 @@ const WorkoutsTableRow = ({ workoutPlan }: { workoutPlan: WorkoutPlan }) => {
                     <IconButton onClick={() => handleEditPlan(workoutPlan.id)}>
                         <SvgIcon>
                             <EditIcon color='primary' />
-                        </SvgIcon>
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title="Asignar Plan">
-                    <IconButton onClick={() => handleAssignToCustomer(workoutPlan.id)}>
-                        <SvgIcon>
-                            <AssignmentIcon color='info' />
                         </SvgIcon>
                     </IconButton>
                 </Tooltip>

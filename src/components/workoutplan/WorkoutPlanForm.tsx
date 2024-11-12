@@ -2,16 +2,18 @@ import { Form, Formik } from "formik";
 import * as Yup from 'yup';
 import { Box, Button, LinearProgress, Stack, Typography } from "@mui/material";
 
-import { SaveWorkoutPlanResponse, Workout, WorkoutPlanFormValues } from "../../models";
+import { EditWorkoutPlanResponse, GetWorkoutPlanResponse, SaveWorkoutPlanResponse, Workout, WorkoutPlan, WorkoutPlanFormValues } from "../../models";
 import { WorkoutPlanFormBody } from "./WorkoutPlanFormBody";
 import { WorkoutFormContainer } from "./workout/WorkoutFormContainer";
 import { primary } from "../../theme/colors";
 import { CustomerWorkoutAssignment } from "./CustomerWorkoutAssignment";
 import { workoutService } from "../../services";
-import { adaptWorkoutPlanToSaveWorkoutPlanRequest } from "../../adapters";
-import { useRouter, useService } from "../../hooks";
+import { adaptGetWorkoutPlanToWorkoutPlan, adaptWorkoutPlanToSaveWorkoutPlanRequest } from "../../adapters";
+import { useAsync, useRouter, useService } from "../../hooks";
 import { SnackBarUtilities } from "../../utils";
 import { paths } from "../../routes/paths";
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
 
 const formInitialValues = {
     name: "",
@@ -78,17 +80,32 @@ const formValidationSchema = Yup.object().shape({
 export const WorkoutPlanForm = () => {
 
     const { loading, callEndpoint } = useService<SaveWorkoutPlanResponse>();
+    const { loading: savingWorkoutPlan, callEndpoint: callEditEndpoint } = useService<EditWorkoutPlanResponse>();
     const router = useRouter();
 
+    const [workoutPlan, setWorkoutPlan] = useState<WorkoutPlan | null>(null);
+    const location = useLocation();
+    const { loading: fetchingWorkoutPlan, callEndpoint: callEndpointGetWorkoutPlan } = useService<GetWorkoutPlanResponse>();
+
+    const fetchWorkoutPlan = async () => location.state?.workoutPlanId && await callEndpointGetWorkoutPlan(await workoutService.getWorkoutPlan(location.state.workoutPlanId));
+
+    const handleFetchUsersResponse = (data: GetWorkoutPlanResponse) => {
+        setWorkoutPlan(adaptGetWorkoutPlanToWorkoutPlan(data));
+    }
+
+    useAsync(fetchWorkoutPlan, handleFetchUsersResponse);
+
     const handleFormSubmit = async (values: WorkoutPlanFormValues) => {
-        const response = await callEndpoint(await workoutService.saveWorkoutPlan(adaptWorkoutPlanToSaveWorkoutPlanRequest(values)));
+        const response = location.state?.workoutPlanId
+            ? await callEndpoint(await workoutService.saveWorkoutPlan(adaptWorkoutPlanToSaveWorkoutPlanRequest(values))) 
+            : await callEditEndpoint(await workoutService.editWorkoutPlan(adaptWorkoutPlanToSaveWorkoutPlanRequest(values)));
         if (response.data.id) {
             SnackBarUtilities.success("Plan de entrenamiento guardado correctamente");
             router.push(paths.index);
         }
     }
 
-    if (loading)
+    if (loading || fetchingWorkoutPlan || savingWorkoutPlan)
         return (
             <Box>
                 <LinearProgress sx={{ mt: 5 }} />
@@ -97,7 +114,16 @@ export const WorkoutPlanForm = () => {
 
     return (
         <Formik
-            initialValues={formInitialValues}
+            initialValues={{
+                ...formInitialValues,
+                name: workoutPlan ? workoutPlan.name : "",
+                objective: workoutPlan ? workoutPlan.objective : "",
+                duration: workoutPlan ? workoutPlan.duration : 0,
+                workouts: workoutPlan ? workoutPlan.workouts : [],
+                initDate: workoutPlan ? workoutPlan.initDate : new Date(),
+                endDate: workoutPlan ? workoutPlan.endDate : undefined,
+                customersId: workoutPlan ? workoutPlan.assignedUsers.map(user => user.id) : []
+            }}
             validationSchema={formValidationSchema}
             onSubmit={handleFormSubmit}>
             <Form>
