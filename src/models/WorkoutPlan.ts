@@ -7,6 +7,11 @@ export type WorkoutPlan = {
     duration?: number;
     initDate: Date;
     endDate?: Date;
-    assignedUsers: string[];
+    assignedUsers: Customer[];
     workouts: Workout[]; 
+}
+
+type Customer = {
+    id: string;
+    name: string;
 }
