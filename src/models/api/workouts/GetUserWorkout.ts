@@ -1,15 +1,14 @@
-export type SaveWorkoutPlanRequest = {
-    name: string;
+export type GetUserWorkoutResponse = {
+    id: string;
+    userId: string;
+    userName: string;
+    userDaysPerWeek: boolean [];
+    workoutPlanName: string;
     objective?: string;
     duration?: number;
     initDate: Date;
     endDate?: Date;
     workouts: Workout[]; 
-    customersId?: string[];
-}
-
-export type SaveWorkoutPlanResponse = {
-    id: string;
 }
 
 type Workout = {
