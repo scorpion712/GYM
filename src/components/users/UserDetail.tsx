@@ -8,7 +8,7 @@ import NoteIcon from '@mui/icons-material/Note';
 import ElderlyIcon from '@mui/icons-material/Elderly';
 
 import { useAsync, useService } from "../../hooks";
-import { GetuserResponse, UserCustomer } from "../../models";
+import { GetUserResponse, UserCustomer } from "../../models";
 import { mockedUsers, userService } from "../../services";
 import { adaptGetCustomerToCustomer } from "../../adapters";
 import { format } from "date-fns";
@@ -22,11 +22,11 @@ export const UserDetail = (props: { id: string }) => {
     const mockedUser = mockedUsers[0];
     const [user, setUser] = useState<UserCustomer | null>(mockedUser);
 
-    const { loading, callEndpoint } = useService<GetuserResponse>();
+    const { loading, callEndpoint } = useService<GetUserResponse>();
 
     const fetchUser = async () => await callEndpoint(await userService.getUser(id));
 
-    const handleFetchUserResponse = (data: GetuserResponse) => {
+    const handleFetchUserResponse = (data: GetUserResponse) => {
         //setUser(adaptGetCustomerToCustomer(data));
         // TO DO: uncomment
     }

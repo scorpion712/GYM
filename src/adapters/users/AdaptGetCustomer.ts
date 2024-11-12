@@ -1,6 +1,6 @@
-import { GetuserResponse, UserCustomer } from "../../models";
+import { GetUserResponse, UserCustomer } from "../../models";
 
-export const adaptGetCustomerToCustomer = (user: GetuserResponse) => {
+export const adaptGetCustomerToCustomer = (user: GetUserResponse) => {
     return {
         id: user.id,
         firstName: user.firstName,
