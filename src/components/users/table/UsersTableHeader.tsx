@@ -1,11 +1,7 @@
-import { TableCell, TableHead, TableRow } from "@mui/material"
-import { primary } from "../../../theme/colors"
+import { TableHead, TableRow } from "@mui/material"
 
-const CustomTableCell = ({ children, align }: { children: React.ReactNode, align?: "left" | "right" | "center" | "inherit" }) => {
-    return (
-        <TableCell align={align ? align : "inherit"} style={{ color: primary.contrastText, fontWeight: "bold", backgroundColor: primary.main }}>{children}</TableCell>
-    )
-};
+import { CustomTableCell } from "../../CustomTableCell"
+
 
 export const UsersTableHeader = () => {
     return (
