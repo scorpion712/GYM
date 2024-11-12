@@ -10,6 +10,7 @@ const HomePage = lazy(() => import('../../pages/home'));
 const CreateUserPage = lazy(() => import('../../pages/users/create'));
 const EditUserPage = lazy(() => import('../../pages/users/edit'));
 const CreateWorkoutPlanPage = lazy(() => import('../../pages/workoutplan/create'));
+const UserWorkoutPlanPage = lazy(() => import('../../pages/users/workout'));
 
 export const dashboardRoutes = [
     {
@@ -40,6 +41,10 @@ export const dashboardRoutes = [
                 path: paths.workout.create,
                 element: <CreateWorkoutPlanPage />,
             },
+            {
+                path: paths.users.workout,
+                element: <UserWorkoutPlanPage />,
+            }
         ],
     },
 ];
