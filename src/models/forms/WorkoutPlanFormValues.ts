@@ -1,3 +1,5 @@
+import { Workout } from "../Workout";
+
 export type WorkoutPlanFormValues = {
     name: string;
     objective?: string;
@@ -17,21 +19,3 @@ export type WorkoutPlanFormValues = {
     customersId?: string[];
 }
 
-export type Workout = {
-    id: string;
-    week: number;
-    day: number;
-    description: string;
-    exercise: Exercise[];
-}
-
-export type Exercise = {
-    id: string;
-    name: string;
-    series: number;
-    repetitions: number;
-    weight: number;
-    rir: number;
-    rpe: number;
-    comments: string;
-}

@@ -8,3 +8,5 @@ export * from './auth';
 export * from './users';
 export * from './CustomPopUp';
 export * from './workoutplan';
+export * from './workouts';
+export * from './CustomTableCell';

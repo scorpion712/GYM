@@ -11,6 +11,7 @@ const CreateUserPage = lazy(() => import('../../pages/users/create'));
 const EditUserPage = lazy(() => import('../../pages/users/edit'));
 const CreateWorkoutPlanPage = lazy(() => import('../../pages/workoutplan/create'));
 const UserWorkoutPlanPage = lazy(() => import('../../pages/users/workout'));
+const WorkoutsPage = lazy(() => import('../../pages/workouts'));
 
 export const dashboardRoutes = [
     {
@@ -36,6 +37,10 @@ export const dashboardRoutes = [
             {
                 path: paths.users.edit,
                 element: <EditUserPage />,
+            },
+            {
+                path: paths.workout.index,
+                element: <WorkoutsPage />,
             },
             {
                 path: paths.workout.create,
