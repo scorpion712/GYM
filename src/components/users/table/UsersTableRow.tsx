@@ -9,19 +9,37 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import { UserCustomer } from "../../../models"
 import { daysPerWeekToString } from "../../../utils"
+import { usePopUp, useRouter } from "../../../hooks";
+import { paths } from "../../../routes/paths";
+import { UserMembershipPayment } from "../membership";
 
 export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
 
+    const router = useRouter();
+    const { showPopUp } = usePopUp();
+
     const handleEditCustomer = (id: string) => {
-        console.log("Editar cliente", id)
+        router.push(paths.users.edit, { 
+            state: {
+                userId: id
+            }
+        });
     }
 
     const handleGoToDetail = (id: string) => {
         console.log("Ver Detalle", id)
     }
 
-    const registerMembershipPayment = (id: string) => {
-        console.log("Registrar Pago", id)
+    const registerMembershipPayment = (id: string, name: string, daysPerWeek: boolean[]) => {
+        showPopUp(`Membresía de cliente ${name}`, <UserMembershipPayment id={id} daysPerWeek={daysPerWeek} />);
+    }
+
+    const handleViewCustomerWorkoutPlan = (id: string) => {
+        console.log("Ver Rutina", id)
+    }
+
+    const handleRemoveCustomer = (id: string) => {
+        console.log("Dar de baja", id)
     }
 
     return (
@@ -33,7 +51,7 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
             <TableCell align="center">{user.age ?? ""}</TableCell>
             <TableCell align="right">{daysPerWeekToString(user.daysPerWeek)}</TableCell>
             <TableCell align="right">{user.lastPaidDate ? format(user.lastPaidDate, "dd MMMM yyyy", { locale: es }) : ""}</TableCell>
-            <TableCell align="right"> 
+            <TableCell align="right">
                 <Tooltip title="Editar cliente">
                     <IconButton onClick={() => handleEditCustomer(user.id)}>
                         <SvgIcon>
@@ -49,21 +67,21 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Registrar Pago">
-                    <IconButton onClick={() => registerMembershipPayment(user.id)}>
+                    <IconButton onClick={() => registerMembershipPayment(user.id, `${user.firstName} ${user.lastName}`, user.daysPerWeek)}>
                         <SvgIcon>
                             <PaidIcon color='success' />
                         </SvgIcon>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Ver Rutina">
-                    <IconButton onClick={() => handleEditCustomer(user.id)}>
+                    <IconButton onClick={() => handleViewCustomerWorkoutPlan(user.id)}>
                         <SvgIcon>
                             <FitnessCenterIcon color='info' />
                         </SvgIcon>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Dar de baja">
-                    <IconButton onClick={() => handleEditCustomer(user.id)}>
+                    <IconButton onClick={() => handleRemoveCustomer(user.id)}>
                         <SvgIcon>
                             <DeleteIcon color='error' />
                         </SvgIcon>

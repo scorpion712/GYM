@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import { APIConfig } from '../../config';
-import { ActivateUserRequest, ActivateUserResponse, AxiosCall, CheckActivationTokenResponse, RegisterUserRequest, RegisterUserResponse, SetUserPasswordRequest, SetUserPasswordResponse } from '../../models';
+import { ActivateUserRequest, ActivateUserResponse, AxiosCall, CheckActivationTokenResponse, GetAllUsersResponse, GetuserResponse, RegisterUserRequest, RegisterUserResponse, SetUserPasswordRequest, SetUserPasswordResponse, UpdateUserRequest, UpdateUserResponse } from '../../models';
 import { CreateUserRequest, CreateUserResponse } from '../../models/api/users/CreateUser';
 
 const registerUser = async (request: RegisterUserRequest) => {
@@ -52,10 +52,41 @@ const createUser = async (request: CreateUserRequest) => {
     } as AxiosCall<CreateUserResponse>;
 }
 
+const getUser = async (id: string) => {
+    const controller = new AbortController();
+
+    return {
+        call: axios.get(`${APIConfig.baseURL}/User/${id}`, { signal: controller.signal }),
+        controller
+    } as AxiosCall<GetuserResponse>;
+}
+
+const getAll = async (deletedUsers: boolean = false) => {
+    const controller = new AbortController();
+
+    return {
+        call: axios.get(deletedUsers ? `${APIConfig.baseURL}/User/Deleted` : `${APIConfig.baseURL}/User`, { signal: controller.signal }),
+        controller
+    } as AxiosCall<GetAllUsersResponse>;
+}
+
+const updateUser = async (request: UpdateUserRequest) => {
+    const controller = new AbortController();
+
+    return {
+        call: axios.put(`${APIConfig.baseURL}/User`, request, { signal: controller.signal }),
+        controller
+    } as AxiosCall<UpdateUserResponse>;
+}
+
+
 export const userService = {
     registerUser,
     activateUser,
     checkActivationToken,
     setPassword,
-    createUser
+    createUser,
+    getUser,
+    getAll,
+    updateUser
 }

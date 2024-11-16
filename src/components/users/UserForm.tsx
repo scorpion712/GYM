@@ -3,11 +3,14 @@ import { Form, Formik } from "formik";
 import * as Yup from 'yup';
 
 import { useRouter, useService } from "../../hooks";
-import { UserRegistrationFormValues, CreateUserRequest, CreateUserResponse } from "../../models";
+import { UserRegistrationFormValues, CreateUserRequest, CreateUserResponse, UserCustomer, GetuserResponse, UpdateUserRequest } from "../../models";
 import { userService } from "../../services";
 import { paths } from "../../routes/paths";
 import { UserFormBody } from "./UserFormBody";
 import { SnackBarUtilities } from "../../utils";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { adaptGetCustomerToCustomer } from "../../adapters";
 
 const formInitialValues = {
     email: "",
@@ -52,10 +55,14 @@ const formValidationSchema = Yup.object().shape({
 });
 
 export const UserForm = () => {
+    const location = useLocation();
     const { loading, callEndpoint } = useService<CreateUserResponse>();
+    const { loading: loadingUser, callEndpoint: callEndpointGetUser } = useService<GetuserResponse>();
     const router = useRouter();
 
-    const handleFormSubmit = async (values: UserRegistrationFormValues) => {
+    const [customer, setCustomer] = useState<UserCustomer | null>(null);
+
+    const createUser = async (values: UserRegistrationFormValues) => {
         const response = await callEndpoint(await userService.createUser({
             firstName: values.firstName,
             lastName: values.lastName, 
@@ -71,18 +78,64 @@ export const UserForm = () => {
         }
     }
 
+    const updateUser = async (values: UserRegistrationFormValues) => {
+        const response = await callEndpoint(await userService.updateUser({
+            id: location.state?.userId,
+            firstName: values.firstName,
+            lastName: values.lastName, 
+            age: values.age,
+            phone: values.phone,
+            email: values.email,
+            considerations: values.considerations,
+            daysPerWeek: values.daysPerWeek
+        } as UpdateUserRequest));
+        if (response.data.id) {
+            SnackBarUtilities.success("Usuario actualizado correctamente");
+            router.push(paths.index);
+        }
+    }
+
+    const handleFormSubmit = async (values: UserRegistrationFormValues) => {
+        if (location.state?.userId) {
+            updateUser(values);
+        } else {
+            createUser(values);
+        }
+    }
+
+    const fetchUser = async (id: string) => { 
+        const response = await callEndpointGetUser(await userService.getUser(id)); 
+        if (response.data) {
+            setCustomer(adaptGetCustomerToCustomer(response.data));
+        } 
+    }
+
+    useEffect(() => {
+        if (location.state?.userId)
+          fetchUser(location.state?.userId);
+      }, [location.state])
+      
     return (
         <Stack spacing={3}>
             {
-                loading ?
+                loading || loadingUser ?
                     <Box>
                         <LinearProgress sx={{ mt: 5 }} />
                     </Box>
                     :
                     <Formik
-                        initialValues={formInitialValues}
+                        initialValues={{
+                            ...formInitialValues,
+                            firstName: customer ? customer?.firstName ?? "" : "",
+                            lastName:  customer ? customer?.lastName ?? "" : "",
+                            email:  customer ? customer?.email ?? "" : "",
+                            phone:  customer ? customer?.phone ?? "" : "",
+                            daysPerWeek:  customer ? customer?.daysPerWeek ?? [] : [],
+                            considerations:  customer ? customer?.considerations ?? "" : ""
+                        }}
                         validationSchema={formValidationSchema}
-                        onSubmit={handleFormSubmit}>
+                        onSubmit={handleFormSubmit}
+                        enableReinitialize={true}>
                         <Form>
                             <UserFormBody />
                             <Button sx={{ mt: { xs: 2, md: 4 } }} type="submit" variant="contained" fullWidth>Registrar</Button>
