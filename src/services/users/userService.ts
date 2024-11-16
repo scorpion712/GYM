@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import { APIConfig } from '../../config';
-import { ActivateUserRequest, ActivateUserResponse, AxiosCall, CheckActivationTokenResponse, GetAllUsersResponse, GetuserResponse, RegisterUserRequest, RegisterUserResponse, SetUserPasswordRequest, SetUserPasswordResponse, UpdateUserRequest, UpdateUserResponse, UserCustomer } from '../../models';
+import { ActivateUserRequest, ActivateUserResponse, AxiosCall, CheckActivationTokenResponse, GetAllUsersResponse, GetUserResponse, RegisterUserRequest, RegisterUserResponse, SetUserPasswordRequest, SetUserPasswordResponse, UpdateUserRequest, UpdateUserResponse, UserCustomer } from '../../models';
 import { CreateUserRequest, CreateUserResponse } from '../../models/api/users/CreateUser';
 
 const registerUser = async (request: RegisterUserRequest) => {
@@ -58,7 +58,7 @@ const getUser = async (id: string) => {
     return {
         call: axios.get(`${APIConfig.baseURL}/User/${id}`, { signal: controller.signal }),
         controller
-    } as AxiosCall<GetuserResponse>;
+    } as AxiosCall<GetUserResponse>;
 }
 
 const getAll = async (deletedUsers: boolean = false) => {

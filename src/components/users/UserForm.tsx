@@ -2,13 +2,13 @@ import { Box, Button, LinearProgress, Stack } from "@mui/material";
 import { Form, Formik } from "formik";
 import * as Yup from 'yup';
 
-import { useRouter, useService } from "../../hooks";
-import { UserRegistrationFormValues, CreateUserRequest, CreateUserResponse, UserCustomer, GetuserResponse, UpdateUserRequest } from "../../models";
+import { useAsync, useRouter, useService } from "../../hooks";
+import { UserRegistrationFormValues, CreateUserRequest, CreateUserResponse, UserCustomer, GetUserResponse, UpdateUserRequest } from "../../models";
 import { userService } from "../../services";
 import { paths } from "../../routes/paths";
 import { UserFormBody } from "./UserFormBody";
 import { SnackBarUtilities } from "../../utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { adaptGetCustomerToCustomer } from "../../adapters";
 
@@ -64,7 +64,7 @@ const formValidationSchema = Yup.object().shape({
 export const UserForm = () => {
     const location = useLocation();
     const { loading, callEndpoint } = useService<CreateUserResponse>();
-    const { loading: loadingUser, callEndpoint: callEndpointGetUser } = useService<GetuserResponse>();
+    const { loading: loadingUser, callEndpoint: callEndpointGetUser } = useService<GetUserResponse>();
     const router = useRouter();
 
     const [customer, setCustomer] = useState<UserCustomer | null>(null);
@@ -112,17 +112,14 @@ export const UserForm = () => {
         }
     }
 
-    const fetchUser = async (id: string) => {
-        const response = await callEndpointGetUser(await userService.getUser(id));
-        if (response.data) {
-            setCustomer(adaptGetCustomerToCustomer(response.data));
-        }
+    const fetchUser = async () => location.state?.userId && await callEndpointGetUser(await userService.getUser(location.state.userId));
+
+    const handleFetchUserResponse = (data: GetUserResponse) => {
+        if (data)
+            setCustomer(adaptGetCustomerToCustomer(data));
     }
 
-    useEffect(() => {
-        if (location.state?.userId)
-            fetchUser(location.state?.userId);
-    }, [location.state])
+    useAsync(fetchUser, handleFetchUserResponse, undefined, [location.state?.userId]);
 
     return (
         <Stack spacing={3}>

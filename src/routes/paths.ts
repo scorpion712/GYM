@@ -7,6 +7,7 @@ export const paths = {
   users: {
     create: '/user/create',
     edit: '/user/edit',
+    workout: '/user/workout',
   },
   workout: {
     index: '/workout',

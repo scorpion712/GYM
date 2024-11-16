@@ -1,4 +1,4 @@
-export type GetuserResponse = {
+export type GetUserResponse = {
     id: string;
     firstName: string;
     lastName?: string;

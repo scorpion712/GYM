@@ -36,7 +36,11 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
     }
 
     const handleViewCustomerWorkoutPlan = (id: string) => {
-        console.log("Ver Rutina", id)
+        router.push(paths.users.workout, {
+            state: {
+                userId: id
+            }
+        });
     }
 
     const handleRemoveCustomer = (id: string) => {
