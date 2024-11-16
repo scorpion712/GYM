@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import { APIConfig } from '../../config';
-import { ActivateUserRequest, ActivateUserResponse, AxiosCall, CheckActivationTokenResponse, GetAllUsersResponse, GetUserResponse, RegisterUserRequest, RegisterUserResponse, SetUserPasswordRequest, SetUserPasswordResponse, UpdateUserRequest, UpdateUserResponse, UserCustomer } from '../../models';
+import { ActivateUserRequest, ActivateUserResponse, AxiosCall, CheckActivationTokenResponse, DeleteUserResponse, GetAllUsersResponse, GetUserResponse, RegisterUserRequest, RegisterUserResponse, SetUserPasswordRequest, SetUserPasswordResponse, UpdateUserRequest, UpdateUserResponse, UserCustomer } from '../../models';
 import { CreateUserRequest, CreateUserResponse } from '../../models/api/users/CreateUser';
 
 const registerUser = async (request: RegisterUserRequest) => {
@@ -79,6 +79,13 @@ const updateUser = async (request: UpdateUserRequest) => {
     } as AxiosCall<UpdateUserResponse>;
 }
 
+const deleteUser = async (id: string) => {
+    const controller = new AbortController();
+    return {
+        call: axios.delete(`${APIConfig.baseURL}/User/${id}`, { signal: controller.signal }),
+        controller
+    } as AxiosCall<DeleteUserResponse>;
+}
 
 export const userService = {
     registerUser,
@@ -88,7 +95,8 @@ export const userService = {
     createUser,
     getUser,
     getAll,
-    updateUser
+    updateUser,
+    deleteUser
 }
 
 export const mockedUsers = [

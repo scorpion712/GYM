@@ -1,10 +1,10 @@
 export type GetWorkoutPlanResponse = {
     id: string; 
-    workoutPlanName: string;
+    name: string;
     objective?: string;
     duration?: number;
-    initDate: Date;
-    endDate?: Date;
+    initDate: number;
+    endDate?: number;
     workouts: Workout[]; 
     assignedUsers: Customer[];
 }

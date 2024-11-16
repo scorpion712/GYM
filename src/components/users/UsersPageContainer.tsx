@@ -5,20 +5,21 @@ import SearchIcon from '@mui/icons-material/Search';
 import { GetAllUsersResponse, UserCustomer } from "../../models";
 import { UsersTableBody, UsersTableHeader } from "./table";
 import { useAsync, useRouter, useService } from "../../hooks";
-import { mockedUsers, userService } from "../../services";
+import { userService } from "../../services";
 import { adaptGetAllCustomersToCustomers } from "../../adapters";
 import { paths } from "../../routes/paths";
+import { primary } from "../../theme/colors";
 
 
 export const UsersPageContainer = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [search, setSearch] = useState("");
-    const [users, setUsers] = useState<UserCustomer[]>(mockedUsers);
+    const [users, setUsers] = useState<UserCustomer[]>([]);
     const [usersTotal, setUsersTotal] = useState(0);
     const { loading, callEndpoint } = useService<GetAllUsersResponse>();
 
-    const router = useRouter(); 
+    const router = useRouter();
 
     const handleChangePage = (_event: unknown, newPage: number) => {
         setPage(newPage);
@@ -81,8 +82,8 @@ export const UsersPageContainer = () => {
                                 onChange={handleSearchChange}
                                 sx={{ flexGrow: 1 }}
                             />
-                            <Button variant="contained" color="success" onClick={handleCreateCustomer}>Nuevo</Button>
-                            <Button variant="outlined" color="info" onClick={handleShowAllCustomers}>Ver Eliminados</Button>
+                            <Button variant="contained" sx={{ backgroundColor: primary.lightest, '&:hover': {backgroundColor: primary.main}}} onClick={handleCreateCustomer}>Nuevo</Button>
+                            <Button sx={{ display: "none"}} variant="outlined" color="info" onClick={handleShowAllCustomers}>Ver Eliminados</Button>
                         </Stack>
                         <TableContainer sx={{ maxHeight: 640 }}>
                             <Table>

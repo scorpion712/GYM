@@ -4,64 +4,21 @@ import { useState } from "react";
 import { useAsync, useRouter, useService } from "../../hooks";
 import { paths } from "../../routes/paths";
 import { WorkoutsTableHeader } from "./table/WorkoutPlanTableHeader";
-import { GetWorkoutPlansResponse, Workout, WorkoutPlan } from "../../models";
+import { GetWorkoutPlansResponse, WorkoutPlan } from "../../models";
 import { workoutService } from "../../services";
 import { adaptGetWorkoutPlansToWorkoutPlan } from "../../adapters";
 import { WorkoutsTableBody } from "./table/WorkoutPlanTableBody";
-
-const mockedWorkoutPlans = [
-    {
-        id: "1",
-        name: "Hipertrofia",
-        objective: "Aumento de Hipertrofia",
-        duration: 4,
-        initDate: new Date(),
-        endDate: new Date(),
-        assignedUsers: [ 
-
-        ],
-        workouts: [
-            {
-                id: "1",
-                week: 1,
-                day: 1,
-                description: "Upper body workout",
-                exercise: [
-                    { id: "1", name: "Bench Press", series: 3, repetitions: 10, weight: 70, rir: 2, rpe: 8, comments: "Felt strong" },
-                    { id: "2", name: "Pull-ups", series: 3, repetitions: 8, weight: 0, rir: 1, rpe: 9, comments: "Need to improve" }
-                ]
-            },
-            {
-                id: "2",
-                week: 1,
-                day: 2,
-                description: "Lower body workout",
-                exercise: [
-                    { id: "3", name: "Squats", series: 3, repetitions: 10, weight: 90, rir: 2, rpe: 8, comments: "Good form" },
-                    { id: "4", name: "Leg Press", series: 3, repetitions: 10, weight: 120 },
-                ]
-            },
-            {
-                id: "3",
-                week: 2,
-                day: 1,
-                description: "Full body workout",
-                exercise: [
-                    { id: "5", name: "Deadlift", series: 3, repetitions: 5, weight: 100, rir: 1, rpe: 9, comments: "Challenging" }
-                ]
-            }] as Workout[]
-    } as WorkoutPlan
-];
+import { primary } from "../../theme/colors";
 
 export const WorkoutsPageContainer = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [search, setSearch] = useState("");
-    const [workoutPlans, setWorkoutPlans] = useState<WorkoutPlan[]>(mockedWorkoutPlans);
+    const [workoutPlans, setWorkoutPlans] = useState<WorkoutPlan[]>([]);
     const [workoutsTotal, setWorkoutsTotal] = useState(0);
     const { loading, callEndpoint } = useService<GetWorkoutPlansResponse>();
 
-    const router = useRouter(); 
+    const router = useRouter();
 
     const handleChangePage = (_event: unknown, newPage: number) => {
         setPage(newPage);
@@ -80,10 +37,10 @@ export const WorkoutsPageContainer = () => {
     }
 
     const handleCreateWorkoutPlan = () => {
-        router.push(paths.users.create);
+        router.push(paths.workout.create);
     }
 
-        const fetchWorkoutPlans = async () => await callEndpoint(await workoutService.getAll());
+    const fetchWorkoutPlans = async () => await callEndpoint(await workoutService.getAll());
 
     const handleFetchWorkoutPlansResponse = (data: GetWorkoutPlansResponse) => {
         setWorkoutPlans(adaptGetWorkoutPlansToWorkoutPlan(data));
@@ -120,7 +77,7 @@ export const WorkoutsPageContainer = () => {
                                 onChange={handleSearchChange}
                                 sx={{ flexGrow: 1 }}
                             />
-                            <Button variant="contained" color="success" onClick={handleCreateWorkoutPlan}>Nuevo</Button> 
+                            <Button variant="contained" sx={{ backgroundColor: primary.lightest, '&:hover': { backgroundColor: primary.main } }} onClick={handleCreateWorkoutPlan}>Nuevo</Button>
                         </Stack>
                         <TableContainer sx={{ maxHeight: 640 }}>
                             <Table>

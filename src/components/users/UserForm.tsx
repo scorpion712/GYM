@@ -56,7 +56,7 @@ const formValidationSchema = Yup.object().shape({
     daysPerWeek: Yup.array()
         .of(Yup.boolean())
         .test('at-least-one-true', 'Al menos debe seleccionar un día', (value) => {
-            return value && value.some(day => day === true);
+            return value && value.some(day => day == true);
         })
         .required('Al menos debe seleccionar un día'),
 });
@@ -78,7 +78,7 @@ export const UserForm = () => {
             phone: values.phone,
             email: values.email,
             considerations: values.considerations,
-            daysPerWeek: values.daysPerWeek
+            daysPerWeek: values.daysPerWeek.length
         } as CreateUserRequest));
         if (response.data.id) {
             SnackBarUtilities.success("Usuario creado correctamente");
@@ -120,7 +120,7 @@ export const UserForm = () => {
     }
 
     useAsync(fetchUser, handleFetchUserResponse, undefined, [location.state?.userId]);
-
+    
     return (
         <Stack spacing={3}>
             {
@@ -137,7 +137,7 @@ export const UserForm = () => {
                             dni: customer ? customer?.dni ?? "" : "",
                             email: customer ? customer?.email ?? "" : "",
                             phone: customer ? customer?.phone ?? "" : "",
-                            daysPerWeek: customer ? customer?.daysPerWeek ?? [] : [],
+                            daysPerWeek: customer ? customer?.daysPerWeek ?? [] : [true, true, true, true, true],
                             considerations: customer ? customer?.considerations ?? "" : ""
                         }}
                         validationSchema={formValidationSchema}

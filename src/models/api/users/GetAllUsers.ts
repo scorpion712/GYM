@@ -15,3 +15,4 @@ interface UserResponse {
     considerations?: string;
     active: boolean;
 }
+// TO DO: add idNumber. Adapt daysPerWeek int to array

@@ -1,6 +1,7 @@
 import { Workout } from "../Workout";
 
 export type WorkoutPlanFormValues = {
+    id?: string;
     name: string;
     objective?: string;
     duration?: number;

@@ -17,13 +17,13 @@ export const AuthGuard = (props: { children: ReactNode | ReactNode []; }) => {
   ];
 
   const check = useCallback(() => {
-    if (!isAuthenticated && !allowedRoutes.includes(window.location.pathname)) {
-      const searchParams = new URLSearchParams({ returnTo: window.location.pathname }).toString();
-      const href = paths.auth.login + `?${searchParams}`;
-      router.replace(href, {});
-    } else {
+    // if (!isAuthenticated && !allowedRoutes.includes(window.location.pathname)) {
+    //   const searchParams = new URLSearchParams({ returnTo: window.location.pathname }).toString();
+    //   const href = paths.auth.login + `?${searchParams}`;
+    //   router.replace(href, {});
+    // } else {
       setChecked(true);
-    }
+    // }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, router]);
 

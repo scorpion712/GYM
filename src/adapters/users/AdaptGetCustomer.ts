@@ -8,6 +8,7 @@ export const adaptGetCustomerToCustomer = (user: GetUserResponse) => {
         phone: user.phone,
         email: user.email,
         age: user.age,
+        dni: user.idNumber,
         daysPerWeek: user.daysPerWeek,
         lastPaidDate: user.lastPaidDate,
         considerations: user.considerations

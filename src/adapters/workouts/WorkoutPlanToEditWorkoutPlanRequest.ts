@@ -1,7 +1,8 @@
-import { SaveWorkoutPlanRequest, WorkoutPlanFormValues } from "../../models";
+import { EditWorkoutPlanRequest, WorkoutPlanFormValues } from "../../models";
 
-export const adaptWorkoutPlanToSaveWorkoutPlanRequest = (workoutPlan: WorkoutPlanFormValues) => {
+export const adaptWorkoutPlanToEditWorkoutPlanRequest = (workoutPlan: WorkoutPlanFormValues) => {
     return {
+        id: workoutPlan.id,
         name: workoutPlan.name,
         objective: workoutPlan.objective,
         duration: workoutPlan.duration,
@@ -28,5 +29,5 @@ export const adaptWorkoutPlanToSaveWorkoutPlanRequest = (workoutPlan: WorkoutPla
             }
         }),
         customersId: workoutPlan.customersId
-    } as SaveWorkoutPlanRequest;
+    } as EditWorkoutPlanRequest;
 }

@@ -5,7 +5,7 @@ export type CreateUserRequest = {
     phone?: string;
     email?: string;
     considerations?: string;
-    daysPerWeek: boolean [];
+    daysPerWeek: number;
 }
 
 export type CreateUserResponse = {

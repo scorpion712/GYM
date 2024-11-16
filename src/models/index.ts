@@ -6,3 +6,4 @@ export * from './UserWorkout';
 export * from './Exercise';
 export * from './Workout';
 export * from './WorkoutPlan';
+export * from './WorkoutPlanDetail';

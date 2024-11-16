@@ -17,7 +17,7 @@ const getUserWorkout = async (id: string) => {
     const controller = new AbortController();
 
     return {
-        call: axios.get(`${APIConfig.baseURL}/User/WorkoutPlan/${id}`, { signal: controller.signal }), 
+        call: axios.get(`${APIConfig.baseURL}/User/WorkoutPlan/${id}`, { signal: controller.signal }),
         controller
     } as AxiosCall<GetUserWorkoutResponse>;
 }

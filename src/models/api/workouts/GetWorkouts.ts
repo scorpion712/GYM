@@ -8,15 +8,10 @@ type WorkoutPlans = {
     name: string;
     objective: string;
     duration: number;
-    initDate: Date;
-    endDate?: Date;
-    assignedUsers: Customer[];
+    initDate: number;
+    endDate?: number;
+    assignedUsers: number;
     workouts: Workout[];
-}
-
-type Customer = {
-    id: string;
-    name: string;
 }
 
 type Workout = {

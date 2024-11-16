@@ -39,8 +39,8 @@ export const WeekWorkoutForm = (props: { week: number }) => {
 
         if (hasFormErrors()) return;
 
-        const saved = values.workouts.find(workout => workout.week === week && workout.day === values.day)?.exercise.push({
-            id: uuidv4(),
+        const saved = values.workouts.find(workout => workout.week == week && workout.day == values.day)?.exercise.push({
+            id: "_" + uuidv4(),
             name: values.exerciseName,
             series: values.series,
             repetitions: values.repetitions,
@@ -49,10 +49,10 @@ export const WeekWorkoutForm = (props: { week: number }) => {
             rpe: values.rpe,
             comments: values.comments
         });
-
+        
         if (!saved) {
             setFieldValue("workouts", [...values.workouts, {
-                id: uuidv4(),
+                id: "_" + uuidv4(),
                 week: week,
                 day: values.day,
                 description: values.description,

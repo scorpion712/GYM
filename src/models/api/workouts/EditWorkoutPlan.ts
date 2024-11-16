@@ -1,4 +1,5 @@
 export type EditWorkoutPlanRequest = {
+    id: string;
     name: string;
     objective?: string;
     duration?: number;
@@ -17,7 +18,7 @@ type Workout = {
     week: number;
     day: number;
     description: string;
-    exercise: Exercise[];
+    exercises: Exercise[];
 }
 
 type Exercise = {

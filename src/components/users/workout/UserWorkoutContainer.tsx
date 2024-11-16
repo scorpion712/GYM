@@ -120,7 +120,7 @@ export const UserWorkoutContainer = () => {
                             <EventAvailableIcon />
                         </SvgIcon>
                         <Typography gutterBottom>
-                            Inicio: <span style={{ fontWeight: "bold" }}>{format(userWorkout.initDate.getTime(), "dd MMMM yyyy", { locale: es })}</span>
+                            Inicio: <span style={{ fontWeight: "bold" }}>{format(userWorkout.initDate, "dd MMMM yyyy", { locale: es })}</span>
                         </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -128,7 +128,7 @@ export const UserWorkoutContainer = () => {
                             <EventBusyIcon />
                         </SvgIcon>
                         <Typography gutterBottom>
-                            Fin: <span style={{ fontWeight: "bold" }}>{userWorkout.endDate ? format(userWorkout.endDate.getTime(), "dd MMMM yyyy", { locale: es }) : "-"}</span>
+                            Fin: <span style={{ fontWeight: "bold" }}>{userWorkout.endDate ? format(userWorkout.endDate, "dd MMMM yyyy", { locale: es }) : "-"}</span>
                         </Typography>
                     </Stack>
                 </Stack>
