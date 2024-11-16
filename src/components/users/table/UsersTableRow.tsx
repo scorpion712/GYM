@@ -12,6 +12,7 @@ import { daysPerWeekToString } from "../../../utils"
 import { usePopUp, useRouter } from "../../../hooks";
 import { paths } from "../../../routes/paths";
 import { UserMembershipPayment } from "../membership";
+import { UserDetail } from "../UserDetail";
 
 export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
 
@@ -26,12 +27,12 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
         });
     }
 
-    const handleGoToDetail = (id: string) => {
-        console.log("Ver Detalle", id)
+    const handleGoToDetail = (id: string, name: string) => {
+        showPopUp(`Datos de ${name}`, <UserDetail id={id}  />);
     }
 
     const registerMembershipPayment = (id: string, name: string, daysPerWeek: boolean[]) => {
-        showPopUp(`Membresía de cliente ${name}`, <UserMembershipPayment id={id} daysPerWeek={daysPerWeek} />);
+        showPopUp(`Membresía de ${name}`, <UserMembershipPayment id={id} daysPerWeek={daysPerWeek} />);
     }
 
     const handleViewCustomerWorkoutPlan = (id: string) => {
@@ -74,7 +75,7 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Ver Detalle">
-                    <IconButton onClick={() => handleGoToDetail(user.id)}>
+                    <IconButton onClick={() => handleGoToDetail(user.id, `${user.firstName} ${user.lastName}`)}>
                         <SvgIcon>
                             <DetailsIcon color='warning' />
                         </SvgIcon>
