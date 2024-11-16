@@ -24,9 +24,9 @@ const WorkoutsTableRow = ({ workoutPlan }: { workoutPlan: WorkoutPlan }) => {
             <TableCell>{workoutPlan.name}</TableCell>
             <TableCell>{workoutPlan.objective}</TableCell>
             <TableCell>{workoutPlan.duration} semanas</TableCell>
-            <TableCell>{format(workoutPlan.initDate.getTime(), "dd/MM/yyyy", { locale: es })}</TableCell>
-            <TableCell>{workoutPlan.endDate ? format(workoutPlan.endDate.getTime(), "dd/MM/yyyy", { locale: es }) : "-"}</TableCell>
-            <TableCell>{workoutPlan.assignedUsers.length}</TableCell>
+            <TableCell>{format(workoutPlan.initDate, "dd/MM/yyyy", { locale: es })}</TableCell>
+            <TableCell>{workoutPlan.endDate ? format(workoutPlan.endDate, "dd/MM/yyyy", { locale: es }) : "-"}</TableCell>
+            <TableCell>{workoutPlan.assignedUsers}</TableCell>
             <TableCell>
                 <Tooltip title="Editar Plan">
                     <IconButton onClick={() => handleEditPlan(workoutPlan.id)}>

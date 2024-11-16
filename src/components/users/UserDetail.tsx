@@ -9,7 +9,7 @@ import ElderlyIcon from '@mui/icons-material/Elderly';
 
 import { useAsync, useService } from "../../hooks";
 import { GetUserResponse, UserCustomer } from "../../models";
-import { mockedUsers, userService } from "../../services";
+import { userService } from "../../services";
 import { adaptGetCustomerToCustomer } from "../../adapters";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
@@ -19,16 +19,14 @@ export const UserDetail = (props: { id: string }) => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
     const { id } = props;
-    const mockedUser = mockedUsers[0];
-    const [user, setUser] = useState<UserCustomer | null>(mockedUser);
+    const [user, setUser] = useState<UserCustomer | null>(null);
 
     const { loading, callEndpoint } = useService<GetUserResponse>();
 
     const fetchUser = async () => await callEndpoint(await userService.getUser(id));
 
     const handleFetchUserResponse = (data: GetUserResponse) => {
-        //setUser(adaptGetCustomerToCustomer(data));
-        // TO DO: uncomment
+        setUser(adaptGetCustomerToCustomer(data));
     }
 
     useAsync(fetchUser, handleFetchUserResponse);

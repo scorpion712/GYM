@@ -1,9 +1,9 @@
-import { Exercise, GetWorkoutPlanResponse, Workout, WorkoutPlan } from "../../models"
+import { Exercise, GetWorkoutPlanResponse, Workout, WorkoutPlanDetail } from "../../models"
 
 export const adaptGetWorkoutPlanToWorkoutPlan = (workoutPlan: GetWorkoutPlanResponse) => {
     return {
         id: workoutPlan.id,
-        name: workoutPlan.workoutPlanName,
+        name: workoutPlan.name,
         objective: workoutPlan.objective,
         duration: workoutPlan.duration,
         initDate: workoutPlan.initDate,
@@ -29,5 +29,5 @@ export const adaptGetWorkoutPlanToWorkoutPlan = (workoutPlan: GetWorkoutPlanResp
                 })
             } as Workout
         })
-    } as WorkoutPlan
+    } as WorkoutPlanDetail
 }

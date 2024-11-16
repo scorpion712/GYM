@@ -14,3 +14,12 @@ export const adaptGetAllCustomersToCustomers = (allUsers: GetAllUsersResponse) =
         } as UserCustomer
     });
 }
+
+export const adaptGetAllCustomersToCustomersSelector = (allUsers: GetAllUsersResponse) => {
+    return allUsers.users.map(user => {
+        return {
+            id: user.id,
+            name: `${user.firstName} ${user.lastName}`
+        }
+    });
+}

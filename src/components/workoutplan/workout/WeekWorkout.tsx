@@ -27,12 +27,12 @@ export const WeekWorkout = () => {
             return (
                 <Accordion key={index}>
                     <AccordionSummary
-                        expandIcon={<ArrowDownwardIcon />} 
+                        expandIcon={<ArrowDownwardIcon />}
                     >
-                        <Typography variant="h6">Semana {(index + 1)}</Typography>
+                        <Typography variant="h6">Semana {(week ? week : index + 1)}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <WeekWorkoutForm week={(index + 1)} />
+                        <WeekWorkoutForm week={week ? parseInt(week) : (index + 1)} /> 
                         <TableContainer>
                             <Table>
                                 <TableHead>

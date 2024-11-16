@@ -4,8 +4,9 @@ export type GetUserResponse = {
     lastName?: string;
     phone?: string;
     email?: string;
+    idNumber?: string;
     age?: string;
-    daysPerWeek: boolean [];
+    daysPerWeek: boolean[];
     lastPaidDate?: number;
     considerations?: string;
 };

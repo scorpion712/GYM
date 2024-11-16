@@ -7,20 +7,22 @@ import PaidIcon from '@mui/icons-material/Paid';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { UserCustomer } from "../../../models"
-import { daysPerWeekToString } from "../../../utils"
-import { usePopUp, useRouter } from "../../../hooks";
+import { DeleteUserResponse, UserCustomer } from "../../../models"
+import { daysPerWeekToString, SnackBarUtilities } from "../../../utils"
+import { usePopUp, useRouter, useService } from "../../../hooks";
 import { paths } from "../../../routes/paths";
 import { UserMembershipPayment } from "../membership";
 import { UserDetail } from "../UserDetail";
+import { userService } from "../../../services";
 
 export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
 
     const router = useRouter();
     const { showPopUp } = usePopUp();
+    const { callEndpoint } = useService<DeleteUserResponse>();
 
     const handleEditCustomer = (id: string) => {
-        router.push(paths.users.edit, { 
+        router.push(paths.users.edit, {
             state: {
                 userId: id
             }
@@ -28,7 +30,7 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
     }
 
     const handleGoToDetail = (id: string, name: string) => {
-        showPopUp(`Datos de ${name}`, <UserDetail id={id}  />);
+        showPopUp(`Datos de ${name}`, <UserDetail id={id} />);
     }
 
     const registerMembershipPayment = (id: string, name: string, daysPerWeek: boolean[]) => {
@@ -43,8 +45,11 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
         });
     }
 
-    const handleRemoveCustomer = (id: string) => {
-        console.log("Dar de baja", id)
+    const handleRemoveCustomer = async (id: string) => {
+        const response = await callEndpoint(await userService.deleteUser(id));
+        if (response.data.id) {
+            SnackBarUtilities.success("Usuario eliminado correctamente");
+        }
     }
 
     return (

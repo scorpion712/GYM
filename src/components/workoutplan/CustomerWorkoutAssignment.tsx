@@ -1,23 +1,33 @@
 import { Autocomplete, Box, Chip, LinearProgress, Stack, TextField, Typography } from "@mui/material";
-import { useState } from "react";
-import { GetAllUsersResponse, UserCustomer, WorkoutPlanFormValues } from "../../models";
-import { mockedUsers, userService } from "../../services";
-import { useAsync, useService } from "../../hooks";
-import { adaptGetAllCustomersToCustomers } from "../../adapters";
+import { useEffect, useState } from "react";
 import { useFormikContext } from "formik";
 
-export const CustomerWorkoutAssignment = () => {
+import { GetAllUsersResponse, WorkoutPlanFormValues } from "../../models";
+import { userService } from "../../services";
+import { useAsync, useService } from "../../hooks";
+import { adaptGetAllCustomersToCustomersSelector } from "../../adapters";
 
-    const [users, setUsers] = useState<UserCustomer[]>(mockedUsers);
-    const [selectedUsers, setSelectedUsers] = useState<UserCustomer[]>(mockedUsers);
-    const { loading, callEndpoint } = useService<GetAllUsersResponse>();
+type Customer = { id: string, name: string };
+
+interface CustomerWorkoutAssignmentProps {
+    selectedUsers: Customer[];
+}
+
+export const CustomerWorkoutAssignment = (props: CustomerWorkoutAssignmentProps) => {
 
     const { setFieldValue } = useFormikContext<WorkoutPlanFormValues>();
+
+    const { selectedUsers: selectedUsersProp } = props;
+
+    const [users, setUsers] = useState<Customer[]>([]);
+    const [selectedUsers, setSelectedUsers] = useState<Customer[]>(selectedUsersProp);
+    const { loading, callEndpoint } = useService<GetAllUsersResponse>();
+
 
     const fetchUsers = async () => await callEndpoint(await userService.getAll());
 
     const handleFetchUsersResponse = (data: GetAllUsersResponse) => {
-        setUsers(adaptGetAllCustomersToCustomers(data));
+        setUsers(adaptGetAllCustomersToCustomersSelector(data));
     }
 
     useAsync(fetchUsers, handleFetchUsersResponse);
@@ -26,7 +36,7 @@ export const CustomerWorkoutAssignment = () => {
         if (!value) return;
 
         // Find the user object that matches the selected name
-        const selectedUser = users.find(user => `${user.firstName} ${user.lastName}` === value);
+        const selectedUser = users.find(user => user.name === value);
 
         if (!selectedUser) return;
 
@@ -43,6 +53,10 @@ export const CustomerWorkoutAssignment = () => {
         setFieldValue("customersId", selectedUsers.filter(user => user.id !== value));
     }
 
+    useEffect(() => {
+        setSelectedUsers(selectedUsersProp);
+    }, [selectedUsersProp]);
+
     if (loading)
         return (
             <Box>
@@ -57,7 +71,7 @@ export const CustomerWorkoutAssignment = () => {
             </Typography>
             <Autocomplete
                 disablePortal
-                options={users.map(user => `${user.firstName} ${user.lastName}`)}
+                options={users.map(user => user.name)}
                 sx={{ width: 500, mb: 3 }}
                 renderInput={(params) => <TextField {...params} label="Clientes" />}
                 onChange={(_e, value) => handleCustomerSelect(value)}
@@ -69,7 +83,7 @@ export const CustomerWorkoutAssignment = () => {
                             <Chip
                                 key={index}
                                 color="primary"
-                                label={`${user.firstName} ${user.lastName}`}
+                                label={user.name}
                                 onDelete={() => handleCustomerRemove(user.id)}
                             />
                         )
