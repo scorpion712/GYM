@@ -8,6 +8,10 @@ export const paths = {
     create: '/user/create',
     edit: '/user/edit',
   },
+  workout: {
+    index: '/workout',
+    create: '/workout/create',
+  },
   notAuthorized: '/401',
   notFound: '/404',
 };

@@ -5,3 +5,4 @@ export * from './ActivateUserFormValues';
 export * from './SetPasswordFormValues';
 export * from './UserRegistrationFormValues';
 export * from './UserMembershipPaymentFormValues';
+export * from './WorkoutPlanFormValues';

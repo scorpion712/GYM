@@ -16,6 +16,15 @@ export const useSections = () => {
                         <HomeIcon />
                     </SvgIcon>
                 ),
+            } as Item, 
+            {
+                title: "Rutinas",
+                path: paths.workout.index,
+                icon: (
+                    <SvgIcon fontSize="small" >
+                        <HomeIcon />
+                    </SvgIcon>
+                ),
             } as Item,
         ];
         return [
@@ -27,7 +36,7 @@ export const useSections = () => {
 };
 
 export type SectionItem = {
-    items: Item [];
+    items: Item[];
     subheader: string;
 }
 
@@ -38,5 +47,5 @@ export type Item = {
     label: string;
     path: string;
     external: boolean;
-    items: Item [];
+    items: Item[];
 }

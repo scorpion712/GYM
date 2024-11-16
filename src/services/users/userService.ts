@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import { APIConfig } from '../../config';
-import { ActivateUserRequest, ActivateUserResponse, AxiosCall, CheckActivationTokenResponse, GetAllUsersResponse, GetuserResponse, RegisterUserRequest, RegisterUserResponse, SetUserPasswordRequest, SetUserPasswordResponse, UpdateUserRequest, UpdateUserResponse } from '../../models';
+import { ActivateUserRequest, ActivateUserResponse, AxiosCall, CheckActivationTokenResponse, GetAllUsersResponse, GetuserResponse, RegisterUserRequest, RegisterUserResponse, SetUserPasswordRequest, SetUserPasswordResponse, UpdateUserRequest, UpdateUserResponse, UserCustomer } from '../../models';
 import { CreateUserRequest, CreateUserResponse } from '../../models/api/users/CreateUser';
 
 const registerUser = async (request: RegisterUserRequest) => {
@@ -90,3 +90,26 @@ export const userService = {
     getAll,
     updateUser
 }
+
+export const mockedUsers = [
+    {
+        id: "1",
+        firstName: "Ronnie",
+        lastName: "Coleman",
+        phone: "555-1234",
+        email: "ronnie@yeahbuddy.com",
+        age: "45",
+        daysPerWeek: [true, true, true, true, true],
+        lastPaidDate: 1679043200000,
+    } as UserCustomer,
+    {
+        id: "2",
+        firstName: "Cris",
+        lastName: "Bumstead",
+        phone: "555-1234",
+        email: "cris@cbum.com",
+        age: "29",
+        daysPerWeek: [true, true, true, true, true],
+        lastPaidDate: 1679043200000,
+    } as UserCustomer
+];

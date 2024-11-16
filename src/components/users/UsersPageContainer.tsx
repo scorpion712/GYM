@@ -4,32 +4,11 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import { GetAllUsersResponse, UserCustomer } from "../../models";
 import { UsersTableBody, UsersTableHeader } from "./table";
-import { useAsync, useService } from "../../hooks";
-import { userService } from "../../services";
+import { useAsync, useRouter, useService } from "../../hooks";
+import { mockedUsers, userService } from "../../services";
 import { adaptGetAllCustomersToCustomers } from "../../adapters";
+import { paths } from "../../routes/paths";
 
-const mockedUsers = [
-    {
-        id: "1",
-        firstName: "Ronnie",
-        lastName: "Coleman",
-        phone: "555-1234",
-        email: "ronnie@yeahbuddy.com",
-        age: "45",
-        daysPerWeek: [true, true, true, true, true],
-        lastPaidDate: 1679043200000,
-    } as UserCustomer,
-    {
-        id: "2",
-        firstName: "Cris",
-        lastName: "Bumstead",
-        phone: "555-1234",
-        email: "cris@cbum.com",
-        age: "29",
-        daysPerWeek: [true, true, true, true, true],
-        lastPaidDate: 1679043200000,
-    } as UserCustomer
-];
 
 export const UsersPageContainer = () => {
     const [page, setPage] = useState(0);
@@ -38,6 +17,8 @@ export const UsersPageContainer = () => {
     const [users, setUsers] = useState<UserCustomer[]>(mockedUsers);
     const [usersTotal, setUsersTotal] = useState(0);
     const { loading, callEndpoint } = useService<GetAllUsersResponse>();
+
+    const router = useRouter(); 
 
     const handleChangePage = (_event: unknown, newPage: number) => {
         setPage(newPage);
@@ -57,6 +38,10 @@ export const UsersPageContainer = () => {
 
     const handleShowAllCustomers = () => {
         console.log("show all customers -> service.getAll(true)")
+    }
+
+    const handleCreateCustomer = () => {
+        router.push(paths.users.create);
     }
 
     const fetchUsers = async () => await callEndpoint(await userService.getAll());
@@ -96,7 +81,7 @@ export const UsersPageContainer = () => {
                                 onChange={handleSearchChange}
                                 sx={{ flexGrow: 1 }}
                             />
-                            <Button variant="contained" color="success" onClick={handleShowAllCustomers}>Nuevo</Button>
+                            <Button variant="contained" color="success" onClick={handleCreateCustomer}>Nuevo</Button>
                             <Button variant="outlined" color="info" onClick={handleShowAllCustomers}>Ver Eliminados</Button>
                         </Stack>
                         <TableContainer sx={{ maxHeight: 640 }}>
