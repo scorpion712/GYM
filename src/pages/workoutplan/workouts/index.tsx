@@ -1,5 +1,5 @@
 import { Box, Container } from "@mui/material";
-import { Seo, WorkoutsPageContainer } from "../../components";
+import { Seo, WorkoutsPageContainer } from "../../../components";
 
 const Page = () => {
     return (

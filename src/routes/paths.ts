@@ -12,6 +12,7 @@ export const paths = {
   workout: {
     index: '/workout',
     create: '/workout/create',
+    edit: '/workout/edit',
   },
   notAuthorized: '/401',
   notFound: '/404',

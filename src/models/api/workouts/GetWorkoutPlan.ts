@@ -1,17 +1,12 @@
-export type GetWorkoutPlansResponse = {
-    workouts: WorkoutPlans[];
-    total: number;
-}
-
-type WorkoutPlans = {
-    id: string;
-    name: string;
-    objective: string;
-    duration: number;
+export type GetWorkoutPlanResponse = {
+    id: string; 
+    workoutPlanName: string;
+    objective?: string;
+    duration?: number;
     initDate: Date;
     endDate?: Date;
+    workouts: Workout[]; 
     assignedUsers: Customer[];
-    workouts: Workout[];
 }
 
 type Customer = {
