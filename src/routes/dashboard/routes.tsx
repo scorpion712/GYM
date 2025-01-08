@@ -11,6 +11,8 @@ const CreateUserPage = lazy(() => import('../../pages/users/create'));
 const EditUserPage = lazy(() => import('../../pages/users/edit'));
 const CreateWorkoutPlanPage = lazy(() => import('../../pages/workoutplan/create'));
 const UserWorkoutPlanPage = lazy(() => import('../../pages/users/workout'));
+const UserWorkoutPlanHistoryPage = lazy(() => import('../../pages/users/workout/history'));
+const WorkoutPlanHistoryDetailPage = lazy(() => import('../../pages/users/workout/history/detail/index'));
 const WorkoutsPage = lazy(() => import('../../pages/workoutplan/workouts'));
 const EditWorkoutPlanPage = lazy(() => import('../../pages/workoutplan/edit'));
 
@@ -54,6 +56,14 @@ export const dashboardRoutes = [
             {
                 path: paths.users.workout,
                 element: <UserWorkoutPlanPage />,
+            },
+            {
+                path: paths.users.workoutHistory,
+                element: <UserWorkoutPlanHistoryPage />,
+            },
+            {
+                path: paths.users.workoutHistoryDetail,
+                element: <WorkoutPlanHistoryDetailPage />,
             }
         ],
     },
