@@ -1,4 +1,4 @@
-import { Exercise, GetUserWorkoutResponse, UserWorkout, Workout } from "../../models"
+import { Exercise, GetUserWorkoutResponse, UserWorkout } from "../../models"
 
 export const adaptGetUserWorkoutToUserWorkout = (workout: GetUserWorkoutResponse) => {
     return {
@@ -11,13 +11,13 @@ export const adaptGetUserWorkoutToUserWorkout = (workout: GetUserWorkoutResponse
         duration: workout.duration,
         initDate: new Date(workout.initDate),
         endDate: workout.endDate ? new Date(workout.endDate) : null,
-        workouts: workout.workouts.map((workout: Workout) => {
+        workouts: workout.workouts.map((workout) => {
             return {
                 id: workout.id,
                 week: workout.week,
                 day: workout.day,
                 description: workout.description,
-                exercise: workout.exercise.map((exercise: Exercise) => {
+                exercise: workout.exercises.map((exercise: Exercise) => {
                     return {
                         id: exercise.id,
                         name: exercise.name,
