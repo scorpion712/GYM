@@ -1,6 +1,6 @@
 
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { Accordion, AccordionSummary, Typography, AccordionDetails, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import { Accordion, AccordionSummary, Typography, AccordionDetails, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
 
 import { Workout } from '../../../models';
 import { primary } from '../../../theme/colors';
@@ -30,12 +30,12 @@ export const UserWorkoutWeek = (props: UserWorkoutWeekProps) => {
             return (
                 <Accordion key={index}>
                     <AccordionSummary
-                        expandIcon={<ArrowDownwardIcon />} 
+                        expandIcon={<ArrowDownwardIcon />}
                     >
                         <Typography variant="h6">Semana {(index + 1)}</Typography>
                     </AccordionSummary>
-                    <AccordionDetails> 
-                        <TableContainer>
+                    <AccordionDetails>
+                        <TableContainer component={Paper}>
                             <Table>
                                 <TableHead>
                                     <TableRow>

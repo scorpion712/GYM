@@ -79,7 +79,7 @@ export const WorkoutsPageContainer = () => {
                             />
                             <Button variant="contained" sx={{ backgroundColor: primary.lightest, '&:hover': { backgroundColor: primary.main } }} onClick={handleCreateWorkoutPlan}>Nuevo</Button>
                         </Stack>
-                        <TableContainer sx={{ maxHeight: 640 }}>
+                        <TableContainer sx={{ maxHeight: 640 }} component={Paper}>
                             <Table>
                                 <WorkoutsTableHeader />
                                 <WorkoutsTableBody workoutPlans={workoutPlans.filter(workout => workout.name.toLowerCase().includes(search.toLowerCase()) || workout.objective?.toLowerCase().includes(search.toLowerCase()))} />

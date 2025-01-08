@@ -1,4 +1,4 @@
-import { Accordion, AccordionSummary, Typography, AccordionDetails, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import { Accordion, AccordionSummary, Typography, AccordionDetails, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from "@mui/material";
 import { useFormikContext } from "formik";
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
@@ -32,8 +32,8 @@ export const WeekWorkout = () => {
                         <Typography variant="h6">Semana {(week ? week : index + 1)}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <WeekWorkoutForm week={week ? parseInt(week) : (index + 1)} /> 
-                        <TableContainer>
+                        <WeekWorkoutForm week={week ? parseInt(week) : (index + 1)} />
+                        <TableContainer component={Paper}>
                             <Table>
                                 <TableHead>
                                     <TableRow>
