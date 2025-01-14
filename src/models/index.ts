@@ -8,3 +8,4 @@ export * from './Workout';
 export * from './WorkoutPlan';
 export * from './WorkoutPlanDetail';
 export * from './WorkoutHistory';
+export * from './Membership';
