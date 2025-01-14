@@ -13,6 +13,7 @@ import { userService } from "../../services";
 import { adaptGetCustomerToCustomer } from "../../adapters";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { primary } from "../../theme/colors";
 
 export const UserDetail = (props: { id: string }) => {
 
@@ -44,10 +45,10 @@ export const UserDetail = (props: { id: string }) => {
         <Stack spacing={1}>
             {user.dni && <Stack direction="row" spacing={2} display={'flex'} alignItems="center">
                 <SvgIcon>
-                    <BadgeIcon color="secondary"/>
+                    <BadgeIcon color="secondary" />
                 </SvgIcon>
                 <Typography variant="h6" >
-                    DNI: <span style={{fontWeight:"normal"}}>{user.dni}</span>
+                    DNI: <span style={{ fontWeight: "normal" }}>{user.dni}</span>
                 </Typography>
             </Stack>}
 
@@ -62,7 +63,7 @@ export const UserDetail = (props: { id: string }) => {
 
             {user.email && <Stack direction="row" spacing={2} display={'flex'} alignItems="center">
                 <SvgIcon>
-                    <ContactMailIcon color="secondary"/>
+                    <ContactMailIcon color="secondary" />
                 </SvgIcon>
                 <Typography variant="h6" >
                     {user.email}
@@ -71,28 +72,28 @@ export const UserDetail = (props: { id: string }) => {
 
             {user.age && <Stack direction="row" spacing={2} display={'flex'} alignItems="center">
                 <SvgIcon>
-                    <ElderlyIcon color="secondary"/>
+                    <ElderlyIcon color="secondary" />
                 </SvgIcon>
                 <Typography variant="h6" >
-                    Edad: <span style={{fontWeight:"normal"}}>{user.age}</span>
+                    Edad: <span style={{ fontWeight: "normal" }}>{user.age}</span>
                 </Typography>
             </Stack>}
 
             {user.lastPaidDate && <Stack direction="row" spacing={2} display={'flex'} alignItems="center">
                 <SvgIcon>
-                    <PaidIcon color="secondary"/>
+                    <PaidIcon color="secondary" />
                 </SvgIcon>
                 <Typography variant="h6" >
-                    Último pago:  <span style={{fontWeight:"normal"}}>{format(user.lastPaidDate, "dd MMMM yyyy", { locale: es })}</span>
+                    Último pago:  <span style={{ fontWeight: "normal" }}>{format(user.lastPaidDate, "dd MMMM yyyy", { locale: es })}</span>
                 </Typography>
             </Stack>}
 
             {user.considerations && <Stack direction="row" spacing={2} display={'flex'} alignItems="center">
                 <SvgIcon>
-                    <NoteIcon color="secondary"/>
+                    <NoteIcon color="secondary" />
                 </SvgIcon>
                 <Typography variant="h6" >
-                    Consideraciones: <span style={{fontWeight:"normal"}}>{user.considerations}</span>
+                    Consideraciones: <span style={{ fontWeight: "normal" }}>{user.considerations}</span>
                 </Typography>
             </Stack>}
 
@@ -101,31 +102,31 @@ export const UserDetail = (props: { id: string }) => {
                 <FormControl component="fieldset">
                     <FormGroup row >
                         <FormControlLabel
-                            control={<Checkbox />}
+                            control={<Checkbox style={{ color: primary.main }} />}
                             label={isSmallScreen ? "L" : "Lunes"}
                             labelPlacement="top"
                             checked={user.daysPerWeek[0] ?? true}
                         />
                         <FormControlLabel
-                            control={<Checkbox />}
+                            control={<Checkbox style={{ color: primary.main }} />}
                             label={isSmallScreen ? "M" : "Martes"}
                             labelPlacement="top"
                             checked={user.daysPerWeek[1] ?? true}
                         />
                         <FormControlLabel
-                            control={<Checkbox />}
+                            control={<Checkbox style={{ color: primary.main }} />}
                             label={isSmallScreen ? "M" : "Miércoles"}
                             labelPlacement="top"
                             checked={user.daysPerWeek[2] ?? true}
                         />
                         <FormControlLabel
-                            control={<Checkbox />}
+                            control={<Checkbox style={{ color: primary.main }} />}
                             label={isSmallScreen ? "J" : "Jueves"}
                             labelPlacement="top"
                             checked={user.daysPerWeek[3] ?? true}
                         />
                         <FormControlLabel
-                            control={<Checkbox checked={user?.daysPerWeek[4]} value={"true"} />}
+                            control={<Checkbox style={{ color: primary.main }} checked={user?.daysPerWeek[4]} value={"true"} />}
                             label={isSmallScreen ? "V" : "Viernes"}
                             labelPlacement="top"
                             checked={user.daysPerWeek[4] ?? true}
