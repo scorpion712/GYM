@@ -10,3 +10,4 @@ export * from './CustomPopUp';
 export * from './workoutplan';
 export * from './workouts';
 export * from './CustomTableCell';
+export * from './memberships';

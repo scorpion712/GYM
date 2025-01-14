@@ -1,19 +1,21 @@
 import { ReactNode, useMemo } from "react";
-import HomeIcon from '@mui/icons-material/Home';
 import { SvgIcon } from "@mui/material";
+import GroupIcon from '@mui/icons-material/Group';
+import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 
 import { paths } from "../../../../routes/paths";
+import EquipmentGym03Icon from "../../../../assets/gymIcon";
 
 export const useSections = () => {
 
     return useMemo(() => {
         const sideNavItems = [
             {
-                title: "Inicio",
+                title: "Clientes",
                 path: paths.index,
                 icon: (
                     <SvgIcon fontSize="small" >
-                        <HomeIcon />
+                        <GroupIcon />
                     </SvgIcon>
                 ),
             } as Item, 
@@ -22,7 +24,16 @@ export const useSections = () => {
                 path: paths.workout.index,
                 icon: (
                     <SvgIcon fontSize="small" >
-                        <HomeIcon />
+                        <EquipmentGym03Icon color="#fff" />
+                    </SvgIcon>
+                ),
+            } as Item,
+            {
+                title: "Membresías",
+                path: paths.membership.index,
+                icon: (
+                    <SvgIcon fontSize="small" >
+                        <RequestQuoteIcon />
                     </SvgIcon>
                 ),
             } as Item,
