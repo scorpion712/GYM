@@ -8,7 +8,7 @@ const logIn = async (email: string, password: string) => {
     const controller = new AbortController();
 
     return {
-        call: axios.post(`${APIConfig.baseURL}/Authentication/AccessToken`, {
+        call: axios.post(`${APIConfig.baseURL}/Auth/login`, {
             email: email,
             password: password,
         }, { signal: controller.signal }),

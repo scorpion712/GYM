@@ -1,15 +1,13 @@
-import { Box, Container, Grid2, LinearProgress,Typography } from "@mui/material";
+import { Box, Container, Grid2, LinearProgress, Typography } from "@mui/material";
 import * as Yup from 'yup';
 import { Form, Formik } from "formik";
-import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { LoginForm, Seo } from "../../../components";
 import { paths } from "../../../routes/paths";
 import { LoginFormValues, LoginResponse } from "../../../models";
 import { useRouter, useService, useAuth } from "../../../hooks";
-import { authService } from "../../../services"; 
-import { SnackBarUtilities } from "../../../utils";
+import { authService } from "../../../services";
 
 const formInitialValues = {
   email: "",
@@ -31,11 +29,12 @@ const LoginPage = () => {
 
   const handleFormSubmit = async (values: LoginFormValues) => {
     const response = await callEndpoint(await authService.logIn(values.email, values.password));
-    if (response) {
+    if (response.status == 200) {
       auth.signIn(response.data);
-      navigateToHome();
-    } else {
-      SnackBarUtilities.error("Error al iniciar sesión");
+      if (await auth.getUserRole().toString() == "admin")
+        navigateToHome();
+      else
+        router.push(paths.users.workout);
     }
   }
 
@@ -43,13 +42,6 @@ const LoginPage = () => {
     const callbackRoute = location.state?.callbackURL ?? "";
     router.push(callbackRoute ? callbackRoute : paths.index, {});
   }
-
-  useEffect(() => {
-    if (auth.isAuthenticated) {
-      navigateToHome();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <>
@@ -76,6 +68,7 @@ const LoginPage = () => {
                   initialValues={formInitialValues}
                   validationSchema={formValidationSchema}
                   onSubmit={handleFormSubmit}
+                  enableReinitialize={false}
                 >
                   <Form>
                     <LoginForm />

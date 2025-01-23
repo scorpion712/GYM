@@ -1,4 +1,4 @@
-import { TableRow, TableCell, Tooltip, IconButton, SvgIcon } from "@mui/material"
+import { TableRow, TableCell, Tooltip, IconButton, SvgIcon, Chip } from "@mui/material"
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import EditIcon from '@mui/icons-material/Edit';
@@ -8,12 +8,13 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { DeleteUserResponse, UserCustomer } from "../../../models"
-import { daysPerWeekToString, SnackBarUtilities } from "../../../utils"
+import { daysPerWeekToString, isActiveMembership} from "../../../utils"
 import { usePopUp, useRouter, useService } from "../../../hooks";
 import { paths } from "../../../routes/paths";
 import { UserMembershipPayment } from "../membership";
 import { UserDetail } from "../UserDetail";
 import { userService } from "../../../services";
+import { error, primary, success } from "../../../theme/colors";
 
 export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
 
@@ -48,10 +49,10 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
     const handleRemoveCustomer = async (id: string) => {
         const response = await callEndpoint(await userService.deleteUser(id));
         if (response.data.id) {
-            SnackBarUtilities.success("Usuario eliminado correctamente");
+            router.refresh();
         }
     }
-
+    
     return (
         <TableRow>
             <TableCell>{user.firstName}</TableCell>
@@ -60,7 +61,13 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
             <TableCell>{user.email ?? ""}</TableCell>
             <TableCell align="center">{user.age ?? ""}</TableCell>
             <TableCell align="right">{daysPerWeekToString(user.daysPerWeek)}</TableCell>
-            <TableCell align="right">{user.lastPaidDate ? format(user.lastPaidDate, "dd MMMM yyyy", { locale: es }) : ""}</TableCell>
+            <TableCell align="right">
+                <Chip label={user.lastPaidDate ? format(user.lastPaidDate, "dd MMMM yyyy", { locale: es }) : ""}
+                    sx={{
+                        backgroundColor: isActiveMembership(user.lastPaidDate ? new Date(user.lastPaidDate) : null) ?  success.main : error.main,
+                        color: primary.contrastText
+                    }} />
+            </TableCell>
             <TableCell align="right">
                 <Tooltip title="Editar cliente">
                     <IconButton onClick={() => handleEditCustomer(user.id)}>

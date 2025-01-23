@@ -53,7 +53,7 @@ const Page = () => {
             color="text.secondary"
             sx={{ mt: 0.5 }}
           >
-           Has intentado acceder a una URL a la cual debes iniciar sesión para continuar.
+           Has intentado acceder a una URL a la cual debes iniciar sesión u obtener permisos para continuar.
           </Typography>
           <Box
             sx={{

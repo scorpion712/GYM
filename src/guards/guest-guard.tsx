@@ -6,7 +6,7 @@ import { paths } from '../routes/paths';
  
 export const GuestGuard = (props: { children: ReactNode | ReactNode []; }) => {
   const { children } = props;
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
   const router = useRouter();
   const [checked, setChecked] = useState(false);
 
@@ -21,10 +21,11 @@ export const GuestGuard = (props: { children: ReactNode | ReactNode []; }) => {
   // Only check on mount, this allows us to redirect the user manually when auth state changes
   useEffect(
     () => {
+      if (loading) return;
       check();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [loading, isAuthenticated]
   );
 
   if (!checked) {

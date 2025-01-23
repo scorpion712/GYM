@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Outlet } from "react-router-dom";
 
-import { AuthGuard } from "../../guards";
+import { AuthGuard, RoleGuard } from "../../guards";
 import { Layout as DashboardLayout } from '../../components/layouts/dashboard/index';
 import { paths } from "../paths";
 
@@ -15,6 +15,7 @@ const UserWorkoutPlanHistoryPage = lazy(() => import('../../pages/users/workout/
 const WorkoutPlanHistoryDetailPage = lazy(() => import('../../pages/users/workout/history/detail/index'));
 const WorkoutsPage = lazy(() => import('../../pages/workoutplan/workouts'));
 const EditWorkoutPlanPage = lazy(() => import('../../pages/workoutplan/edit'));
+const MembershipsPage = lazy(() => import('../../pages/memberships'));
 
 export const dashboardRoutes = [
     {
@@ -31,27 +32,45 @@ export const dashboardRoutes = [
         children: [
             {
                 index: true,
-                element: <HomePage />,
+                element:
+                    <RoleGuard allowedRoles={['admin']}>
+                        <HomePage />
+                    </RoleGuard>,
             },
             {
                 path: paths.users.create,
-                element: <CreateUserPage />,
+                element:
+                    <RoleGuard allowedRoles={['admin']}>
+                        <CreateUserPage />
+                    </RoleGuard>,
             },
             {
                 path: paths.users.edit,
-                element: <EditUserPage />,
+                element:
+                    <RoleGuard allowedRoles={['admin']}>
+                        <EditUserPage />
+                    </RoleGuard>,
             },
             {
                 path: paths.workout.index,
-                element: <WorkoutsPage />,
+                element:
+                    <RoleGuard allowedRoles={['admin']}>
+                        <WorkoutsPage />
+                    </RoleGuard>,
             },
             {
                 path: paths.workout.create,
-                element: <CreateWorkoutPlanPage />,
+                element:
+                    <RoleGuard allowedRoles={['admin']}>
+                        <CreateWorkoutPlanPage />
+                    </RoleGuard>,
             },
             {
                 path: paths.workout.edit,
-                element: <EditWorkoutPlanPage />,
+                element:
+                    <RoleGuard allowedRoles={['admin']}>
+                        <EditWorkoutPlanPage />
+                    </RoleGuard>,
             },
             {
                 path: paths.users.workout,
@@ -63,7 +82,15 @@ export const dashboardRoutes = [
             },
             {
                 path: paths.users.workoutHistoryDetail,
-                element: <WorkoutPlanHistoryDetailPage />,
+                element:
+                    <WorkoutPlanHistoryDetailPage />,
+            },
+            {
+                path: paths.membership.index,
+                element:
+                    <RoleGuard allowedRoles={['admin']}>
+                        <MembershipsPage />
+                    </RoleGuard>,
             }
         ],
     },

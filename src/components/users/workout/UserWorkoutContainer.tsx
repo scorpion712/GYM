@@ -5,15 +5,15 @@ import EventBusyIcon from '@mui/icons-material/EventBusy';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import TimerIcon from '@mui/icons-material/Timer';
-
-import { useRouter, useService } from "../../../hooks";
-import { workoutService } from "../../../services";
 import { useLocation } from "react-router-dom";
+import { es } from "date-fns/locale";
+import { format } from "date-fns";
+
+import { useAuth, useRouter, useService } from "../../../hooks";
+import { workoutService } from "../../../services";
 import { GetUserWorkoutResponse, UserWorkout } from "../../../models";
 import { UserWorkoutWeek } from "./UserWorkoutWeek";
 import { primary } from "../../../theme/colors";
-import { es } from "date-fns/locale";
-import { format } from "date-fns";
 import { adaptGetUserWorkoutToUserWorkout } from "../../../adapters";
 import { paths } from "../../../routes/paths";
 
@@ -21,6 +21,7 @@ export const UserWorkoutContainer = () => {
     const location = useLocation();
     const { loading, callEndpoint } = useService<GetUserWorkoutResponse>();
     const router = useRouter();
+    const { user } = useAuth();
 
     const [userWorkout, setUserWorkout] = useState<UserWorkout | null>(null);
 
@@ -40,8 +41,7 @@ export const UserWorkoutContainer = () => {
     }
 
     useEffect(() => {
-        if (location.state?.userId)
-            fetchUserWorkout(location.state?.userId);
+        fetchUserWorkout(location.state?.userId ?? user?.id);
     }, [location.state])
 
     if (loading)
