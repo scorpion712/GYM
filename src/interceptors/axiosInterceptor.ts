@@ -48,9 +48,9 @@ export const AxiosInterceptor = () => {
         let errorMessage = "";
         // reject the promise throwing custom error message 
         if (error.response) { // there is an error thrown by the API 
-            if (error.status != 500 || error.status as number != 403) {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                SnackBarUtilities.error((error.response.data as any).message as string ?? "");
+            if (error.status != 500 || error.status as number != 403) { 
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any 
+                SnackBarUtilities.error(error.response.data as string ?? "");
                 errorMessage = error.response.data as string;
             } else {
                 errorMessage = error.response.status as number === 403 ? "Por su seguridad le pedimos ingrese sus credenciales nuevamente" : "Ha ocurrido un error en el servidor";
