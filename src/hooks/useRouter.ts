@@ -15,7 +15,7 @@ export const useRouter = () => {
       forward: () => navigate(1),
       refresh: () => navigate(0),
       push: (href: To, options?: NavigateOptions) => navigate(href, options),
-      replace: (href: To, options: NavigateOptions) => navigate(href, { ...options, replace: true }),
+      replace: (href: To, options?: NavigateOptions) => navigate(href, { ...options, replace: true }),
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       prefetch: (_href: To) => { },
     };
