@@ -1,8 +1,8 @@
 export type RegisterUserPaymentRequest = {
     userId: string;
     date: Date;
-    total: number;
-    daysPerWeek: boolean [];
+    amount: number;
+    timesPerWeek: number;
 }
 
 export type RegisterUserPaymentResponse = {

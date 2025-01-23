@@ -7,10 +7,11 @@ import { MembershipPaymentFormBody } from "./MembershipPaymentFormBody";
 import { SnackBarUtilities } from "../../../utils";
 import { usePopUp, useService } from "../../../hooks";
 import { membershipService } from "../../../services";
+import { primary } from "../../../theme/colors";
 
 interface UserMembershipPaymentProps {
     id: string;
-    daysPerWeek: boolean[];  
+    daysPerWeek: boolean[];
 }
 
 const formInitialValues = {
@@ -41,9 +42,9 @@ export const UserMembershipPayment = (props: UserMembershipPaymentProps) => {
         const response = await callEndpoint(await membershipService.pay({
             userId: id,
             date: values.date,
-            total: values.total,
-            daysPerWeek: values.daysPerWeek
-        } as RegisterUserPaymentRequest)); 
+            amount: values.total,
+            timesPerWeek: values.daysPerWeek.filter(Boolean).length
+        } as RegisterUserPaymentRequest));
         if (response.data.id) {
             SnackBarUtilities.success("Se ha registrado la mensualidad de pago correctamente");
             closePopUp();
@@ -65,7 +66,8 @@ export const UserMembershipPayment = (props: UserMembershipPaymentProps) => {
                 <MembershipPaymentFormBody />
                 <Button type="submit"
                     variant="contained"
-                    fullWidth>
+                    fullWidth
+                    sx={{ mt: 2, color: "white", backgroundColor: primary.main }} >
                     Registrar
                 </Button>
             </Form>
