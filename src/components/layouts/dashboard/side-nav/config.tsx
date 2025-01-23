@@ -5,11 +5,14 @@ import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 
 import { paths } from "../../../../routes/paths";
 import EquipmentGym03Icon from "../../../../assets/gymIcon";
+import { useAuth } from "../../../../hooks";
 
 export const useSections = () => {
 
+    const { getUserRole } = useAuth();
+    const role = getUserRole();
     return useMemo(() => {
-        const sideNavItems = [
+        const adminSideNavItems = [
             {
                 title: "Clientes",
                 path: paths.index,
@@ -38,9 +41,30 @@ export const useSections = () => {
                 ),
             } as Item,
         ];
+        const userSideNavItems = [
+            {
+                title: "Rutina",
+                path: paths.users.workout,
+                icon: (
+                    <SvgIcon fontSize="small" >
+                        <EquipmentGym03Icon color="#fff" />
+                    </SvgIcon>
+                ),
+            } as Item,
+            {
+                title: "Membresías",
+                path: paths.membership.index,
+                icon: (
+                    <SvgIcon fontSize="small" >
+                        <RequestQuoteIcon />
+                    </SvgIcon>
+                ),
+            } as Item,
+        ];
+
         return [
             {
-                items: sideNavItems,
+                items: role ? role.toString() == "admin" ? adminSideNavItems : userSideNavItems : [],	
             } as SectionItem,
         ];
     }, []);
