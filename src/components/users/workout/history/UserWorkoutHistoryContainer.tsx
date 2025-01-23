@@ -2,7 +2,7 @@ import { Box, LinearProgress, Paper, Table, TableContainer, TablePagination } fr
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useService } from "../../.././../hooks";
+import { useAuth, useService } from "../../.././../hooks";
 import { workoutService } from "../../.././../services";
 import { GetHistoricWorkoutPlansResponse } from "../../.././../models";
 import { WorkoutHistory } from "../../../../models";
@@ -13,10 +13,11 @@ export const UserWorkoutHistoryContainer = () => {
     const location = useLocation();
     const { loading, callEndpoint } = useService<GetHistoricWorkoutPlansResponse>();
 
-    const [workouts, setWorkouts] = useState<WorkoutHistory[]>([]); 
+    const [workouts, setWorkouts] = useState<WorkoutHistory[]>([]);
     const [workoutsTotal, setWorkoutsTotal] = useState(0);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const { user } = useAuth();
 
     const handleChangePage = (_event: unknown, newPage: number) => {
         setPage(newPage);
@@ -36,8 +37,7 @@ export const UserWorkoutHistoryContainer = () => {
     }
 
     useEffect(() => {
-        if (location.state?.userId)
-            fetchWorkouts(location.state?.userId);
+        fetchWorkouts(location.state?.userId ?? user!.id);
     }, [location.state])
 
     if (loading)
@@ -52,19 +52,19 @@ export const UserWorkoutHistoryContainer = () => {
             <TableContainer sx={{ maxHeight: 640 }} component={Paper}>
                 <Table>
                     <HistoricWorkoutstTableHeader />
-                    <HistoricWorkoutsTableBody workouts={workouts}/>
+                    <HistoricWorkoutsTableBody workouts={workouts} />
                 </Table>
             </TableContainer>
             <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
                 component="div"
-                count={workouts.length} // TO OD: replace by workoutsTotal
+                count={workoutsTotal}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
                 labelRowsPerPage="Planes por página"
-                labelDisplayedRows={({ from, to }) => `${from}-${to} de ${workouts.length}`} // TO OD: replace by workoutsTotal
+                labelDisplayedRows={({ from, to }) => `${from}-${to} de ${workoutsTotal}`}
             />
         </Paper >
     )

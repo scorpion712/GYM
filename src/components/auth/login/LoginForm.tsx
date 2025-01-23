@@ -1,9 +1,10 @@
 import { VisibilityOff, Visibility } from '@mui/icons-material'
 import { Stack, TextField, FormControl, InputLabel, FilledInput, InputAdornment, IconButton, Button, Typography } from '@mui/material'
 import { useFormikContext } from 'formik';
-import { useState } from 'react'; 
+import { useState } from 'react';
 
 import { LoginFormValues } from '../../../models';
+import { primary } from '../../../theme/colors';
 
 export function LoginForm() {
     const [showPassword, setShowPassword] = useState(false);
@@ -61,6 +62,9 @@ export function LoginForm() {
                 fullWidth
                 sx={{
                     mt: 3,
+                    '&:hover': {
+                        backgroundColor: primary.lightest,
+                    },
                 }}
                 size="large"
                 type="submit"

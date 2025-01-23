@@ -8,7 +8,7 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { DeleteUserResponse, UserCustomer } from "../../../models"
-import { daysPerWeekToString, isActiveMembership, SnackBarUtilities } from "../../../utils"
+import { daysPerWeekToString, isActiveMembership} from "../../../utils"
 import { usePopUp, useRouter, useService } from "../../../hooks";
 import { paths } from "../../../routes/paths";
 import { UserMembershipPayment } from "../membership";
@@ -49,7 +49,7 @@ export const UsersTableRow = ({ user }: { user: UserCustomer }) => {
     const handleRemoveCustomer = async (id: string) => {
         const response = await callEndpoint(await userService.deleteUser(id));
         if (response.data.id) {
-            SnackBarUtilities.success("Usuario eliminado correctamente");
+            router.refresh();
         }
     }
     
