@@ -85,7 +85,7 @@ export const UsersPageContainer = () => {
                             <Button variant="contained" sx={{ backgroundColor: primary.lightest, '&:hover': {backgroundColor: primary.main}}} onClick={handleCreateCustomer}>Nuevo</Button>
                             <Button sx={{ display: "none"}} variant="outlined" color="info" onClick={handleShowAllCustomers}>Ver Eliminados</Button>
                         </Stack>
-                        <TableContainer sx={{ maxHeight: 640 }}>
+                        <TableContainer sx={{ maxHeight: 640 }} component={Paper}>
                             <Table>
                                 <UsersTableHeader />
                                 <UsersTableBody users={users.filter(user => user.firstName.toLowerCase().includes(search.toLowerCase()) || user.lastName?.toLowerCase().includes(search.toLowerCase()))} />

@@ -16,7 +16,7 @@ type Workout = {
     week: number;
     day: number;
     description: string;
-    exercise: Exercise[];
+    exercises: Exercise[];
 }
 
 type Exercise = {

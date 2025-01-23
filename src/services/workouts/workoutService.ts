@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { APIConfig } from "../../config";
-import { AxiosCall, EditWorkoutPlanRequest, EditWorkoutPlanResponse, GetUserWorkoutResponse, GetWorkoutPlanResponse, GetWorkoutPlansResponse, SaveWorkoutPlanRequest, SaveWorkoutPlanResponse } from "../../models";
+import { AxiosCall, EditWorkoutPlanRequest, EditWorkoutPlanResponse, GetHistoricWorkoutPlansResponse, GetUserWorkoutResponse, GetWorkoutPlanResponse, GetWorkoutPlansResponse, SaveWorkoutPlanRequest, SaveWorkoutPlanResponse } from "../../models";
 
 
 const saveWorkoutPlan = async (request: SaveWorkoutPlanRequest) => {
@@ -17,7 +17,7 @@ const getUserWorkout = async (id: string) => {
     const controller = new AbortController();
 
     return {
-        call: axios.get(`${APIConfig.baseURL}/User/WorkoutPlan/${id}`, { signal: controller.signal }),
+        call: axios.get(`${APIConfig.baseURL}/WorkoutPlan/User/${id}`, { signal: controller.signal }),
         controller
     } as AxiosCall<GetUserWorkoutResponse>;
 }
@@ -49,10 +49,20 @@ const editWorkoutPlan = async (request: EditWorkoutPlanRequest) => {
     } as AxiosCall<EditWorkoutPlanResponse>;
 }
 
+export const getHistoricWorkoutPlans = async (id: string) => {
+    const controller = new AbortController();
+
+    return {
+        call: axios.get(`${APIConfig.baseURL}/WorkoutPlan/History/User/${id}`, { signal: controller.signal }),
+        controller
+    } as AxiosCall<GetHistoricWorkoutPlansResponse>;
+}
+
 export const workoutService = {
     saveWorkoutPlan,
     getUserWorkout,
     getAll,
     getWorkoutPlan,
-    editWorkoutPlan
+    editWorkoutPlan,
+    getHistoricWorkoutPlans
 }
